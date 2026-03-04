@@ -1,5 +1,11 @@
 # Prokaryotic Pangenomes as Bet-Hedging Devices
 
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Nature](https://img.shields.io/badge/journal-Nature-red.svg)]()
+[![DOI](https://img.shields.io/badge/DOI-pending-lightgrey.svg)]()
+[![Code style: PEP 8](https://img.shields.io/badge/code%20style-PEP%208-orange.svg)](https://peps.python.org/pep-0008/)
+
 Code for reproducing all figures in the manuscript. Figures follow the v40 main text numbering (5 main figures, 10 supplementary figures).
 
 ## Quick start
