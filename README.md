@@ -2,7 +2,6 @@
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Nature](https://img.shields.io/badge/journal-Nature-red.svg)]()
 [![DOI](https://img.shields.io/badge/DOI-pending-lightgrey.svg)]()
 [![Code style: PEP 8](https://img.shields.io/badge/code%20style-PEP%208-orange.svg)](https://peps.python.org/pep-0008/)
 
