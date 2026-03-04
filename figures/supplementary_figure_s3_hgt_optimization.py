@@ -205,6 +205,7 @@ def main():
     parser.add_argument('--output-dir', default='.', help='Output directory')
     parser.add_argument('--format', default='png', choices=['png', 'pdf', 'svg', 'all'])
     parser.add_argument('--quick', action='store_true', help='Quick run with fewer replicates')
+    parser.add_argument('--seed', type=int, default=42, help='Random seed')
     args = parser.parse_args()
 
     print("=" * 60)
@@ -212,6 +213,7 @@ def main():
     print("=" * 60)
     print()
 
+    np.random.seed(args.seed)
     results, h_values, rho_values = run_simulation(quick=args.quick)
     plot_figure(results, h_values, rho_values,
                 output_dir=args.output_dir, fmt=args.format)
