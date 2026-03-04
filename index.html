@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prokaryotic Pangenomes as Bet-Hedging Devices</title>
+<style>
+  :root {
+    --bg: #fafbfc;
+    --text: #1a1a2e;
+    --muted: #5a5a7a;
+    --accent: #1b4965;
+    --accent2: #5fa8d3;
+    --border: #d0d7de;
+    --card-bg: #ffffff;
+    --code-bg: #f0f3f6;
+    --section-alt: #f4f7fa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b4965 50%, #2a6f97 100%);
+    color: #fff;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 1;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: #b8d4e8;
+    margin-bottom: 2rem;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-badges { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+  .hero-badges img { height: 22px; }
+
+  /* ── Nav ── */
+  nav {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+  nav a {
+    display: block;
+    padding: 0.9rem 1.2rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  nav a:hover, nav a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── Sections ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 3.5rem 0; }
+  section.alt { background: var(--section-alt); }
+  section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent2);
+    display: inline-block;
+  }
+  section p { margin-bottom: 1rem; color: var(--text); }
+  section p.muted { color: var(--muted); font-size: 0.95rem; }
+
+  /* ── Cards ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); transform: translateY(-2px); }
+  .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--accent); }
+  .card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.8rem; }
+  .card a {
+    font-size: 0.85rem;
+    color: var(--accent2);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .card a:hover { text-decoration: underline; }
+
+  /* ── Table ── */
+  .table-wrap { overflow-x: auto; margin-top: 1.2rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  thead { background: var(--accent); color: #fff; }
+  th { padding: 0.7rem 1rem; text-align: left; font-weight: 600; white-space: nowrap; }
+  td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); }
+  tbody tr:hover { background: #f0f5fa; }
+  td code {
+    background: var(--code-bg);
+    padding: 0.15em 0.45em;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  }
+
+  /* ── Code blocks ── */
+  pre {
+    background: #0d1b2a;
+    color: #c9d1d9;
+    padding: 1.3rem 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    margin: 1rem 0;
+  }
+  pre .comment { color: #6a9955; }
+  pre .cmd { color: #5fa8d3; }
+
+  /* ── Preprint banner ── */
+  .preprint-banner {
+    background: linear-gradient(90deg, #1b4965, #2a6f97);
+    color: #fff;
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .preprint-banner .dot {
+    width: 8px; height: 8px;
+    background: #fbbf24;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── Directory tree ── */
+  .tree {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    margin: 1rem 0;
+    color: var(--muted);
+  }
+  .tree span { color: var(--accent); font-weight: 600; }
+
+  /* ── Footer ── */
+  footer {
+    background: #0d1b2a;
+    color: #8899aa;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+  footer a { color: var(--accent2); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { padding: 3rem 1.2rem 2.5rem; }
+    .hero h1 { font-size: 1.6rem; }
+    section { padding: 2.5rem 0; }
+    .container { padding: 0 1.2rem; }
+    nav a { padding: 0.8rem 0.8rem; font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preprint-banner">
+  <span class="dot"></span>
+  Preprint coming soon &mdash; check back for the bioRxiv link
+</div>
+
+<!-- ── Hero ── -->
+<header class="hero">
+  <div class="hero-content">
+    <h1>Prokaryotic Pangenomes as Bet-Hedging Devices</h1>
+    <p class="subtitle">
+      A theoretical and empirical framework showing that accessory gene repertoires in prokaryotes function as evolved bet-hedging strategies under environmental uncertainty.
+    </p>
+    <div class="hero-badges">
+      <img src="https://img.shields.io/badge/python-3.9%2B-blue.svg" alt="Python 3.9+">
+      <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License">
+      <img src="https://img.shields.io/badge/DOI-pending-lightgrey.svg" alt="DOI pending">
+      <img src="https://img.shields.io/github/stars/mol-evol/pangenome-bet-hedging?style=social" alt="GitHub stars">
+    </div>
+  </div>
+</header>
+
+<!-- ── Navigation ── -->
+<nav>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#figures">Figures</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#code">Code</a></li>
+    <li><a href="#quickstart">Quick Start</a></li>
+    <li><a href="https://github.com/mol-evol/pangenome-bet-hedging">GitHub &nearr;</a></li>
+  </ul>
+</nav>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="container">
+    <h2>About the paper</h2>
+    <p>
+      Prokaryotic pangenomes &mdash; the full complement of genes found across a species &mdash; are
+      typically partitioned into a conserved &ldquo;core&rdquo; and a variable &ldquo;accessory&rdquo; genome.
+      The accessory genome can comprise the majority of a species&rsquo; gene repertoire,
+      yet the evolutionary logic governing its composition has remained unclear.
+    </p>
+    <p>
+      This work presents a unifying explanation: <strong>pangenome structure is a bet-hedging device</strong>.
+      Through mathematical modelling and analysis of &gt;10,000 <em>E. coli</em> genomes and 670 prokaryotic species,
+      I show that maintaining within-population gene-content diversity acts as a form of biological insurance.
+      Lineages that spread their genetic &ldquo;investments&rdquo; across environments via accessory gene portfolios
+      reduce long-term fitness variance, analogous to portfolio diversification in financial theory.
+    </p>
+    <p>
+      Horizontal gene transfer (HGT) emerges as the mechanism that sustains these diversified portfolios
+      at equilibrium, and the characteristic U-shaped gene-frequency distribution observed across
+      pangenomes arises naturally from the model without additional assumptions.
+    </p>
+    <p class="muted">
+      This repository contains all simulation and analysis code required to reproduce every figure in the manuscript.
+    </p>
+  </div>
+</section>
+
+<!-- ── Figures ── -->
+<section id="figures" class="alt">
+  <div class="container">
+    <h2>Figure&ndash;script mapping</h2>
+    <p>The manuscript contains 5 main figures and 10 supplementary figures. Each is generated by a dedicated Python script.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Figure</th><th>Script</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Fig 1 (A&ndash;E)</td><td><code>figure1_merged.py</code></td><td>Variance cost of environmental mismatch + HGT mechanism</td></tr>
+          <tr><td>Fig 2 (A&ndash;D)</td><td><code>figure2_hgt.py</code></td><td>Gene frequency equilibrium under horizontal gene transfer</td></tr>
+          <tr><td>Fig 3 (A&ndash;F)</td><td><code>figure3_merged.py</code></td><td>U-shaped gene-frequency distribution + complexity threshold</td></tr>
+          <tr><td>Fig 4 (A&ndash;D)</td><td><code>figure5_coupling.py</code></td><td><em>E.&nbsp;coli</em> environment coupling + gene classification</td></tr>
+          <tr><td>Fig 5 (A&ndash;F)</td><td><code>figure6_insurance.py</code></td><td>Niche insurance, simulation + fitness landscape</td></tr>
+          <tr><td>Fig S1</td><td><code>supplementary_figure_s1_frequency.py</code></td><td>Optimal population diversity</td></tr>
+          <tr><td>Fig S2</td><td><code>supplementary_figure_s2_parameter_sensitivity.py</code></td><td>Parameter sensitivity analysis</td></tr>
+          <tr><td>Fig S3</td><td><code>supplementary_figure_s3_hgt_optimization.py</code></td><td>HGT rate optimisation</td></tr>
+          <tr><td>Fig S4</td><td><code>selection_analysis.py</code></td><td>Cross-species purifying selection signatures</td></tr>
+          <tr><td>Fig S5</td><td><code>variance_analysis.py</code></td><td>Cross-species variance constraint</td></tr>
+          <tr><td>Figs S6&ndash;S10</td><td><code>supplementary_figures_s6_s10.py</code></td><td>Supplementary empirical panels</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Data ── -->
+<section id="data">
+  <div class="container">
+    <h2>Datasets</h2>
+    <p>All analyses use publicly available data. The large <em>E.&nbsp;coli</em> dataset is downloaded on demand via the included helper script.</p>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Horesh et al. (2021)</h3>
+        <p>Gene presence/absence matrix and isolation-source metadata for 10,146 <em>E.&nbsp;coli</em> genomes. ~790 MB.</p>
+        <a href="https://doi.org/10.6084/m9.figshare.13270073" target="_blank">Figshare &rarr;</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://doi.org/10.1099/mgen.0.000499" target="_blank">Paper &rarr;</a>
+      </div>
+      <div class="card">
+        <h3>Douglas &amp; Shapiro (2024)</h3>
+        <p>Pangenome and related metrics for 670 prokaryotic species. Included in the repository (92 KB, compressed).</p>
+        <a href="https://github.com/mol-evol/pangenome-bet-hedging/tree/main/data/douglas_shapiro" target="_blank">View in repo &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Code structure ── -->
+<section id="code" class="alt">
+  <div class="container">
+    <h2>Repository structure</h2>
+    <p>The codebase follows a modular architecture. Merged figure scripts import panel functions from component modules, keeping each analysis self-contained.</p>
+    <div class="tree">
+      <span>pangenome-bet-hedging/</span><br>
+      &ensp;&ensp;run_figures.py&emsp;&emsp;&emsp;&emsp;&emsp;<em>Batch runner &mdash; entry point for all figures</em><br>
+      &ensp;&ensp;requirements.txt&emsp;&emsp;&emsp;&ensp;<em>Python dependencies</em><br>
+      &ensp;&ensp;<span>shared/</span><br>
+      &ensp;&ensp;&ensp;&ensp;params.py&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<em>Model parameters</em><br>
+      &ensp;&ensp;&ensp;&ensp;plotting.py&emsp;&emsp;&emsp;&emsp;&emsp;<em>Colour palette, figure setup, export</em><br>
+      &ensp;&ensp;<span>figures/</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<em>Theory &amp; simulation scripts</em><br>
+      &ensp;&ensp;&ensp;&ensp;figure1_merged.py&emsp;&emsp;&emsp;<em>Fig 1 (A&ndash;E)</em><br>
+      &ensp;&ensp;&ensp;&ensp;figure2_hgt.py&emsp;&emsp;&emsp;&emsp;&ensp;<em>Fig 2 (A&ndash;D)</em><br>
+      &ensp;&ensp;&ensp;&ensp;figure3_merged.py&emsp;&emsp;&emsp;<em>Fig 3 (A&ndash;F)</em><br>
+      &ensp;&ensp;&ensp;&ensp;supplementary_*.py&emsp;&emsp;&ensp;<em>Figs S1&ndash;S3</em><br>
+      &ensp;&ensp;<span>empirical/</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<em>Data analyses (E. coli + cross-species)</em><br>
+      &ensp;&ensp;&ensp;&ensp;figure5_coupling.py&emsp;&emsp;&ensp;<em>Fig 4</em><br>
+      &ensp;&ensp;&ensp;&ensp;figure6_insurance.py&emsp;&emsp;<em>Fig 5</em><br>
+      &ensp;&ensp;&ensp;&ensp;*_analysis.py&emsp;&emsp;&emsp;&emsp;&ensp;<em>Individual analysis modules</em><br>
+      &ensp;&ensp;&ensp;&ensp;test_*.py&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;<em>Unit tests</em><br>
+      &ensp;&ensp;<span>data/</span><br>
+      &ensp;&ensp;&ensp;&ensp;download_data.sh&emsp;&emsp;&emsp;&ensp;<em>Fetches Horesh et al. from Figshare</em><br>
+      &ensp;&ensp;&ensp;&ensp;douglas_shapiro/&emsp;&emsp;&emsp;&ensp;<em>Cross-species metrics (included)</em><br>
+    </div>
+    <p style="margin-top:1rem;">
+      <a href="https://github.com/mol-evol/pangenome-bet-hedging" target="_blank" style="color:var(--accent2);text-decoration:none;font-weight:600;">Browse the full repository on GitHub &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- ── Quick start ── -->
+<section id="quickstart">
+  <div class="container">
+    <h2>Quick start</h2>
+    <p>Clone the repository, install dependencies, download the data, and generate figures:</p>
+    <pre><span class="comment"># Clone and set up</span>
+<span class="cmd">git clone</span> https://github.com/mol-evol/pangenome-bet-hedging.git
+<span class="cmd">cd</span> pangenome-bet-hedging
+<span class="cmd">pip install</span> -r requirements.txt
+
+<span class="comment"># Download the Horesh et al. dataset (~790 MB)</span>
+<span class="cmd">cd</span> data && <span class="cmd">bash</span> download_data.sh && <span class="cmd">cd</span> ..
+
+<span class="comment"># Generate all figures</span>
+<span class="cmd">python</span> run_figures.py --all
+
+<span class="comment"># Or generate specific figures</span>
+<span class="cmd">python</span> run_figures.py --figures 1 3        <span class="comment"># main figures 1 and 3</span>
+<span class="cmd">python</span> run_figures.py --supplementary S1 S2 <span class="comment"># supplementary figures</span>
+<span class="cmd">python</span> run_figures.py --empirical 4 5       <span class="comment"># empirical figures</span>
+<span class="cmd">python</span> run_figures.py --quick                <span class="comment"># fast mode (fewer replicates)</span>
+<span class="cmd">python</span> run_figures.py --dry-run              <span class="comment"># preview commands only</span></pre>
+
+    <p>Output is saved to <code style="background:var(--code-bg);padding:0.15em 0.45em;border-radius:4px;font-size:0.9em;">output/</code> by default. Override with <code style="background:var(--code-bg);padding:0.15em 0.45em;border-radius:4px;font-size:0.9em;">--output-dir PATH</code>.</p>
+
+    <h3 style="margin-top:2rem;margin-bottom:0.8rem;font-size:1.1rem;color:var(--accent);">Running tests</h3>
+    <pre><span class="cmd">python</span> -m pytest empirical/test_*.py -v</pre>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <p>
+      <a href="https://github.com/mol-evol/pangenome-bet-hedging">GitHub</a>
+      &ensp;&middot;&ensp;
+      <a href="https://github.com/mol-evol/pangenome-bet-hedging/blob/main/LICENSE">MIT License</a>
+    </p>
+    <p style="margin-top:0.5rem;">&copy; 2026 James O. McInerney</p>
+  </div>
+</footer>
+
+<script>
+// Highlight active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
