@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-FIGURE 5: Environment Coupling and Gene Classification
+FIGURE 4: Environment Coupling and Gene Classification
 ================================================================================
 
 Main-text figure for the paper. 4 panels (2×2):
@@ -16,7 +16,7 @@ Data: Horesh et al. (2021) E. coli, 2,579 genomes.
 USAGE
 -----
   cd decoupling_analysis
-  python figure5_coupling.py [--output-dir DIR] [--format FMT]
+  python figure4_coupling.py [--output-dir DIR] [--format FMT]
 ================================================================================
 """
 
@@ -57,7 +57,7 @@ def main():
     args = parser.parse_args()
 
     setup_plotting()
-    print_header('FIGURE 5: Environment Coupling + Gene Classification')
+    print_header('FIGURE 4: Environment Coupling + Gene Classification')
 
     # Load data
     print('\n[1/3] Loading data...')
@@ -85,8 +85,10 @@ def main():
     add_panel_label(axes[1, 1], 'D')
 
     fig.tight_layout(w_pad=3.0, h_pad=2.5)
-    save_figure(fig, 'figure5_coupling', output_dir=args.output_dir,
-                fmt=args.format)
+    saved = save_figure(fig, 'figure4_coupling', output_dir=args.output_dir,
+                        fmt=args.format)
+    for p in saved:
+        print(f'    → {p}')
 
     if args.show:
         plt.show()

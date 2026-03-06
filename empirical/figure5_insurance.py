@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-FIGURE 6: Niche Insurance, Model Discrimination, and Fitness Landscape
+FIGURE 5: Niche Insurance, Model Discrimination, and Fitness Landscape
 ================================================================================
 
 Main-text figure for the paper. 6 panels (2×3):
@@ -18,7 +18,7 @@ Data: Horesh et al. (2021) E. coli, phylogroup B2.
 USAGE
 -----
   cd decoupling_analysis
-  python figure6_insurance.py [--n-sims 500] [--output-dir DIR] [--format FMT]
+  python figure5_insurance.py [--n-sims 500] [--output-dir DIR] [--format FMT]
 ================================================================================
 """
 
@@ -252,7 +252,7 @@ def main():
     args = parser.parse_args()
 
     setup_plotting()
-    print_header('FIGURE 6: Niche Insurance + Models + Fitness')
+    print_header('FIGURE 5: Niche Insurance + Models + Fitness')
 
     # ---- Row 1: Niche insurance panels ----
     print('\n[1/5] Loading niche insurance data...')
@@ -326,8 +326,10 @@ def main():
     add_panel_label(axes[1, 2], 'F')
 
     fig.tight_layout(w_pad=3.0, h_pad=2.5)
-    save_figure(fig, 'figure6_insurance', output_dir=args.output_dir,
-                fmt=args.format)
+    saved = save_figure(fig, 'figure5_insurance', output_dir=args.output_dir,
+                        fmt=args.format)
+    for p in saved:
+        print(f'    → {p}')
 
     if args.show:
         plt.show()

@@ -10,8 +10,8 @@ Figure numbering follows main text v40:
   Figure 1: Merged variance + mechanism (figure1_merged.py)
   Figure 2: HGT equilibrium (figure2_hgt.py)
   Figure 3: Merged U-shape + complexity (figure3_merged.py)
-  Figure 4: E. coli coupling (empirical/figure5_coupling.py)
-  Figure 5: Niche insurance (empirical/figure6_insurance.py)
+  Figure 4: E. coli coupling (empirical/figure4_coupling.py)
+  Figure 5: Niche insurance (empirical/figure5_insurance.py)
 
 USAGE:
     python run_figures.py                    # Run all main figures
@@ -56,9 +56,9 @@ SUPPLEMENTARY = {
 }
 
 EMPIRICAL = {
-    4: {'script': os.path.join(EMPIRICAL_DIR, 'figure5_coupling.py'),
+    4: {'script': os.path.join(EMPIRICAL_DIR, 'figure4_coupling.py'),
         'name': 'Environment Coupling & Classification (4-panel)'},
-    5: {'script': os.path.join(EMPIRICAL_DIR, 'figure6_insurance.py'),
+    5: {'script': os.path.join(EMPIRICAL_DIR, 'figure5_insurance.py'),
         'name': 'Niche Insurance (6-panel)'},
 }
 

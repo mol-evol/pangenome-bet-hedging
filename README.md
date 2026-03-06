@@ -45,8 +45,8 @@ code/
     supplementary_figure_s3_hgt_optimization.py   Figure S3: HGT rate optimisation
 
   empirical/                Empirical analyses (E. coli + cross-species)
-    figure5_coupling.py     Figure 4 (A–D): environment coupling + gene classification
-    figure6_insurance.py    Figure 5 (A–F): niche insurance + model discrimination + fitness
+    figure4_coupling.py     Figure 4 (A–D): environment coupling + gene classification
+    figure5_insurance.py    Figure 5 (A–F): niche insurance + model discrimination + fitness
     supplementary_figures_s6_s10.py   Figures S6–S10: supplementary empirical panels
     decoupling_analysis.py  Jaccard distance / PERMANOVA analysis (panels for Fig 4 & S6)
     gene_classification.py  Chi-squared classification of genes (panels for Fig 4 & S7)
@@ -73,8 +73,8 @@ code/
 | Fig 1 (A–E) | `figure1_merged.py` | Variance cost (A–B) + HGT mechanism (C–E) |
 | Fig 2 (A–D) | `figure2_hgt.py` | Gene frequency equilibrium under HGT |
 | Fig 3 (A–F) | `figure3_merged.py` | U-shaped distribution (A–C) + complexity threshold (D–F) |
-| Fig 4 (A–D) | `figure5_coupling.py` | E. coli environment coupling + gene classification |
-| Fig 5 (A–F) | `figure6_insurance.py` | Niche insurance + simulation + fitness landscape |
+| Fig 4 (A–D) | `figure4_coupling.py` | E. coli environment coupling + gene classification |
+| Fig 5 (A–F) | `figure5_insurance.py` | Niche insurance + simulation + fitness landscape |
 | Fig S1 | `supplementary_figure_s1_frequency.py` | Optimal population diversity |
 | Fig S2 | `supplementary_figure_s2_parameter_sensitivity.py` | Parameter sensitivity |
 | Fig S3 | `supplementary_figure_s3_hgt_optimization.py` | HGT rate optimisation |
@@ -86,7 +86,7 @@ code/
 
 The merged figure scripts (`figure1_merged.py`, `figure3_merged.py`) import simulation functions from their component modules (`figure1_variance.py` + `figure7_mechanism.py`, and `figure3_ushape.py` + `figure4_complexity.py` respectively). The component scripts remain as importable modules and can also be run standalone for debugging.
 
-Similarly, the main-text empirical figures (`figure5_coupling.py`, `figure6_insurance.py`) import panel-drawing functions from the individual analysis scripts. The supplementary empirical figures (`supplementary_figures_s6_s10.py`) draw the complementary panels from the same analysis scripts.
+Similarly, the main-text empirical figures (`figure4_coupling.py`, `figure5_insurance.py`) import panel-drawing functions from the individual analysis scripts. The supplementary empirical figures (`supplementary_figures_s6_s10.py`) draw the complementary panels from the same analysis scripts.
 
 ## Data sources
 
