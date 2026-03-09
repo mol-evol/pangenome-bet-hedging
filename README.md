@@ -37,9 +37,6 @@ code/
     figure2_hgt.py                  Figure 2 (A–D): HGT-mediated bet-hedging equilibrium
     figure3_ushape_complexity.py    Figure 3 (A–F): U-shaped distribution + complexity threshold
     mechanism_simulations.py        Component module imported by figure1 (panels C–E)
-    _legacy_figure1_variance.py     Legacy standalone (kept for reference)
-    _legacy_figure3_ushape.py       Legacy standalone (kept for reference)
-    _legacy_figure4_complexity.py   Legacy standalone (kept for reference)
     supplementary_figure_s1_frequency.py          Figure S1: optimal carrier frequency
     supplementary_figure_s2_parameter_sensitivity.py  Figure S2: parameter sensitivity
     supplementary_figure_s3_hgt_optimization.py   Figure S3: HGT rate optimisation
@@ -86,7 +83,7 @@ code/
 
 ## Architecture note
 
-`figure1_variance_mechanism.py` imports simulation functions from `mechanism_simulations.py`. The legacy component scripts (`_legacy_figure1_variance.py`, `_legacy_figure3_ushape.py`, `_legacy_figure4_complexity.py`) are not imported and are kept for reference only.
+`figure1_variance_mechanism.py` imports simulation functions from `mechanism_simulations.py`.
 
 Similarly, the main-text empirical figures (`figure4_coupling.py`, `figure5_insurance.py`) import panel-drawing functions from the individual analysis scripts. The supplementary empirical figures (`supplementary_figures_s6_s10.py`) draw the complementary panels from the same analysis scripts.
 
