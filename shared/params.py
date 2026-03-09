@@ -9,7 +9,7 @@ THEORY_PARAMS : used by Figures 1-5 and supplementary figures S1-S2.
     s = 0.3, c = 0.02, h = 0.001, delta = 0.001, p = 0.01
     These illustrate the qualitative mechanisms clearly in simulations.
 
-EMPIRICAL_PARAMS : used by empirical reanalyses (Figures 6-7, SI S4-S12).
+EMPIRICAL_PARAMS : used by empirical reanalyses (Figures 4-5, SI S4-S11).
     s = 0.01, c = 0.0002
     Biologically realistic estimates for the E. coli pangenome.
 
@@ -27,7 +27,7 @@ THEORY_PARAMS = {
 }
 
 
-# ── Empirical analyses (Figs 6-7) ───────────────────────────────────────────
+# ── Empirical analyses (Figs 4-5) ───────────────────────────────────────────
 
 EMPIRICAL_PARAMS = {
     's': 0.01,      # Selective benefit (~1%)
