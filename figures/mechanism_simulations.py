@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-FIGURE 7: THE BET-HEDGING MECHANISM
+MECHANISM SIMULATIONS
 ================================================================================
 
-This figure demonstrates how HGT implements population-level bet-hedging:
+Component module providing HGT/bet-hedging simulation functions.
+Imported by figure1_variance_mechanism.py (panels C-E).
 
 The mechanism:
 - HGT maintains costly genes at low frequency (the insurance policy)
@@ -19,9 +20,9 @@ Panel D tests robustness across environmental switching rates (autocorrelation).
 Fast switching (τ=1) favors bet-hedging most; slow switching reduces the advantage.
 
 USAGE:
-    python figure7_mechanism.py
-    python figure7_mechanism.py --quick
-    python figure7_mechanism.py --format svg
+    python mechanism_simulations.py
+    python mechanism_simulations.py --quick
+    python mechanism_simulations.py --format svg
 
 ================================================================================
 """
@@ -37,7 +38,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from shared.plotting import COLORS, setup_plotting, save_figure, print_header, print_progress, add_panel_label
 from shared.params import THEORY_PARAMS as PARAMS
 
-BASENAME = 'figure7_mechanism'
+BASENAME = 'mechanism_simulations'
 
 
 # =============================================================================

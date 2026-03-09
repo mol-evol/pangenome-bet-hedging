@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FIGURE 1 (MERGED): THE COST OF VARIANCE AND THE BET-HEDGING MECHANISM
+FIGURE 1: THE COST OF VARIANCE AND THE BET-HEDGING MECHANISM
 
 A unified figure demonstrating why bet-hedging works:
 
@@ -19,9 +19,9 @@ and HGT implements the bet-hedging mechanism to maintain genetic diversity as
 insurance against environmental uncertainty.
 
 Usage:
-    python figure1_merged.py
-    python figure1_merged.py --quick
-    python figure1_merged.py --generations 2000 --replicates 1000
+    python figure1_variance_mechanism.py
+    python figure1_variance_mechanism.py --quick
+    python figure1_variance_mechanism.py --generations 2000 --replicates 1000
 """
 
 import argparse
@@ -36,9 +36,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from shared.plotting import COLORS, setup_plotting, save_figure, print_header, print_progress, add_panel_label
 from shared.params import THEORY_PARAMS as PARAMS
-from figure7_mechanism import simulate_equilibrium, run_simulations, simulate_trajectory
+from mechanism_simulations import simulate_equilibrium, run_simulations, simulate_trajectory
 
-BASENAME = 'figure1_merged'
+BASENAME = 'figure1_variance_mechanism'
 
 
 # ── VARIANCE SIMULATION (Figure 1 original) ──────────────────────────────────

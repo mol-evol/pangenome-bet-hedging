@@ -7,9 +7,9 @@ RUN BET-HEDGING FIGURES
 Wrapper to run all or selected figure programs.
 
 Figure numbering follows main text v42:
-  Figure 1: Merged variance + mechanism (figure1_merged.py)
+  Figure 1: Variance + mechanism (figure1_variance_mechanism.py)
   Figure 2: HGT equilibrium (figure2_hgt.py)
-  Figure 3: Merged U-shape + complexity (figure3_merged.py)
+  Figure 3: U-shape + complexity (figure3_ushape_complexity.py)
   Figure 4: E. coli coupling (empirical/figure4_coupling.py)
   Figure 5: Niche insurance (empirical/figure5_insurance.py)
 
@@ -36,11 +36,11 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, 'figures')
 EMPIRICAL_DIR = os.path.join(SCRIPT_DIR, 'empirical')
 
 FIGURES = {
-    1: {'script': os.path.join(FIGURES_DIR, 'figure1_merged.py'),
+    1: {'script': os.path.join(FIGURES_DIR, 'figure1_variance_mechanism.py'),
         'name': 'Variance + Mechanism (5-panel, A–E)'},
     2: {'script': os.path.join(FIGURES_DIR, 'figure2_hgt.py'),
         'name': 'HGT Equilibrium (4-panel)'},
-    3: {'script': os.path.join(FIGURES_DIR, 'figure3_merged.py'),
+    3: {'script': os.path.join(FIGURES_DIR, 'figure3_ushape_complexity.py'),
         'name': 'U-Shape + Complexity (6-panel, A–F)'},
     4: {'script': os.path.join(EMPIRICAL_DIR, 'figure4_coupling.py'),
         'name': 'Environment Coupling & Classification (4-panel)'},

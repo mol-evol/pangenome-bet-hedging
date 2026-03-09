@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-FIGURE 3 MERGED: U-SHAPED DISTRIBUTION + COMPLEXITY THRESHOLD
+FIGURE 3: U-SHAPED DISTRIBUTION + COMPLEXITY THRESHOLD
 ================================================================================
 
 Combines two key perspectives on pangenome structure:
@@ -21,9 +21,9 @@ BOTTOM ROW (Complexity threshold, 3 panels):
   - Panel F: Phase diagram showing coverage advantage
 
 USAGE:
-    python figure3_merged.py
-    python figure3_merged.py --quick
-    python figure3_merged.py --genes 5000 --generations 3000
+    python figure3_ushape_complexity.py
+    python figure3_ushape_complexity.py --quick
+    python figure3_ushape_complexity.py --genes 5000 --generations 3000
 
 ================================================================================
 """
@@ -40,7 +40,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from shared.plotting import COLORS, setup_plotting, save_figure, print_header, print_progress, add_panel_label
 from shared.params import THEORY_PARAMS as PARAMS
 
-BASENAME = 'figure3_merged'
+BASENAME = 'figure3_ushape_complexity'
 
 
 # =============================================================================
@@ -558,7 +558,7 @@ def main():
     n_gen = args.generations // 5 if args.quick else args.generations
     n_rep = args.replicates // 5 if args.quick else args.replicates
 
-    print_header('FIGURE 3 MERGED: U-SHAPED DISTRIBUTION + COMPLEXITY THRESHOLD', {
+    print_header('FIGURE 3: U-SHAPED DISTRIBUTION + COMPLEXITY THRESHOLD', {
         'Number of genes': n_genes,
         'HGT rate (h)': h,
         'Gene loss rate (δ)': delta,
