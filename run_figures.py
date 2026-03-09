@@ -6,7 +6,7 @@ RUN BET-HEDGING FIGURES
 
 Wrapper to run all or selected figure programs.
 
-Figure numbering follows main text v40:
+Figure numbering follows main text v42:
   Figure 1: Merged variance + mechanism (figure1_merged.py)
   Figure 2: HGT equilibrium (figure2_hgt.py)
   Figure 3: Merged U-shape + complexity (figure3_merged.py)
@@ -42,6 +42,10 @@ FIGURES = {
         'name': 'HGT Equilibrium (4-panel)'},
     3: {'script': os.path.join(FIGURES_DIR, 'figure3_merged.py'),
         'name': 'U-Shape + Complexity (6-panel, A–F)'},
+    4: {'script': os.path.join(EMPIRICAL_DIR, 'figure4_coupling.py'),
+        'name': 'Environment Coupling & Classification (4-panel)'},
+    5: {'script': os.path.join(EMPIRICAL_DIR, 'figure5_insurance.py'),
+        'name': 'Niche Insurance (6-panel)'},
 }
 
 SUPPLEMENTARY = {
@@ -51,16 +55,17 @@ SUPPLEMENTARY = {
            'name': 'Parameter Sensitivity'},
     'S3': {'script': os.path.join(FIGURES_DIR, 'supplementary_figure_s3_hgt_optimization.py'),
            'name': 'HGT Rate Optimisation'},
+    'S4': {'script': os.path.join(EMPIRICAL_DIR, 'selection_analysis.py'),
+           'name': 'Selection Reanalysis'},
+    'S5': {'script': os.path.join(EMPIRICAL_DIR, 'variance_analysis.py'),
+           'name': 'Variance Reanalysis'},
     'S6-S10': {'script': os.path.join(EMPIRICAL_DIR, 'supplementary_figures_s6_s10.py'),
                'name': 'Empirical Supplementary (S6–S10)'},
+    'S11': {'script': os.path.join(EMPIRICAL_DIR, 'supplementary_figure_s11_contamination.py'),
+            'name': 'Contamination Sensitivity'},
 }
 
-EMPIRICAL = {
-    4: {'script': os.path.join(EMPIRICAL_DIR, 'figure4_coupling.py'),
-        'name': 'Environment Coupling & Classification (4-panel)'},
-    5: {'script': os.path.join(EMPIRICAL_DIR, 'figure5_insurance.py'),
-        'name': 'Niche Insurance (6-panel)'},
-}
+EMPIRICAL = {}  # Figures 4-5 are in FIGURES dict above
 
 
 def parse_args():
@@ -70,7 +75,7 @@ def parse_args():
         epilog=__doc__
     )
     parser.add_argument('--figures', '-f', nargs='+', type=int,
-                        choices=[1, 2, 3], default=[1, 2, 3])
+                        choices=[1, 2, 3, 4, 5], default=[1, 2, 3])
     parser.add_argument('--supplementary', '-s', action='store_true')
     parser.add_argument('--empirical', '-e', action='store_true')
     parser.add_argument('--all', '-a', action='store_true')
@@ -113,16 +118,13 @@ def main():
     print()
 
     tasks = []
-    for fig_num in args.figures:
+    fig_nums = list(FIGURES.keys()) if args.all else args.figures
+    for fig_num in fig_nums:
         info = FIGURES[fig_num]
         tasks.append((f"Figure {fig_num}", info['script'], info['name']))
 
     if args.supplementary or args.all:
         for key, info in SUPPLEMENTARY.items():
-            tasks.append((f"Figure {key}", info['script'], info['name']))
-
-    if args.empirical or args.all:
-        for key, info in EMPIRICAL.items():
             tasks.append((f"Figure {key}", info['script'], info['name']))
 
     if args.dry_run:

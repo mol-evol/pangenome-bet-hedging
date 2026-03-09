@@ -80,11 +80,14 @@ def main():
     panel_a_volcano(axes[1, 0], class_data)
     add_panel_label(axes[1, 0], 'C')
 
-    # Panel D: P-value histogram
-    panel_b_pvalue_histogram(axes[1, 1], class_data)
-    add_panel_label(axes[1, 1], 'D')
-
+    # Layout BEFORE Panel D, so it gets the correct axes position
+    # (Panel D replaces its axes with a broken y-axis pair)
     fig.tight_layout(w_pad=3.0, h_pad=2.5)
+
+    # Panel D: P-value histogram (broken y-axis — must come after tight_layout)
+    ax_d_top = panel_b_pvalue_histogram(axes[1, 1], class_data)
+    if ax_d_top is not None:
+        add_panel_label(ax_d_top, 'D')
     saved = save_figure(fig, 'figure4_coupling', output_dir=args.output_dir,
                         fmt=args.format)
     for p in saved:

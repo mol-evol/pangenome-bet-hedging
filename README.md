@@ -5,7 +5,7 @@
 [![DOI](https://img.shields.io/badge/DOI-pending-lightgrey.svg)]()
 [![Code style: PEP 8](https://img.shields.io/badge/code%20style-PEP%208-orange.svg)](https://peps.python.org/pep-0008/)
 
-Code for reproducing all figures in the manuscript. Figures follow the v40 main text numbering (5 main figures, 10 supplementary figures).
+Code for reproducing all figures in the manuscript. Figures follow the v42 main text numbering (5 main figures, 11 supplementary figures).
 
 ## Quick start
 
@@ -36,10 +36,10 @@ code/
     figure1_merged.py       Figure 1 (A–E): variance cost + HGT mechanism
     figure2_hgt.py          Figure 2 (A–D): HGT-mediated bet-hedging equilibrium
     figure3_merged.py       Figure 3 (A–F): U-shaped distribution + complexity threshold
-    figure1_variance.py     Component module imported by figure1_merged (panels A–B)
-    figure3_ushape.py       Component module imported by figure3_merged (panels A–C)
-    figure4_complexity.py   Component module imported by figure3_merged (panels D–F)
     figure7_mechanism.py    Component module imported by figure1_merged (panels C–E)
+    figure1_variance.py     Legacy standalone (not imported; kept for reference)
+    figure3_ushape.py       Legacy standalone (not imported; kept for reference)
+    figure4_complexity.py   Legacy standalone (not imported; kept for reference)
     supplementary_figure_s1_frequency.py          Figure S1: optimal carrier frequency
     supplementary_figure_s2_parameter_sensitivity.py  Figure S2: parameter sensitivity
     supplementary_figure_s3_hgt_optimization.py   Figure S3: HGT rate optimisation
@@ -55,6 +55,7 @@ code/
     fitness_landscape.py    Strategy fitness comparison (panels for Fig 5 & S10)
     selection_analysis.py   Figure S4: cross-species purifying selection (Douglas & Shapiro)
     variance_analysis.py    Figure S5: cross-species variance constraint (Douglas & Shapiro)
+    supplementary_figure_s11_contamination.py  Figure S11: label noise sensitivity
     test_*.py               Unit tests for empirical analyses
 
   data/                     Input datasets
@@ -81,10 +82,11 @@ code/
 | Fig S4 | `selection_analysis.py` | Cross-species purifying selection signatures |
 | Fig S5 | `variance_analysis.py` | Cross-species variance constraint |
 | Figs S6–S10 | `supplementary_figures_s6_s10.py` | Empirical supplementary panels |
+| Fig S11 | `supplementary_figure_s11_contamination.py` | Label noise sensitivity |
 
 ## Architecture note
 
-The merged figure scripts (`figure1_merged.py`, `figure3_merged.py`) import simulation functions from their component modules (`figure1_variance.py` + `figure7_mechanism.py`, and `figure3_ushape.py` + `figure4_complexity.py` respectively). The component scripts remain as importable modules and can also be run standalone for debugging.
+`figure1_merged.py` imports simulation functions from `figure7_mechanism.py`. The other legacy component scripts (`figure1_variance.py`, `figure3_ushape.py`, `figure4_complexity.py`) are not imported by the merged scripts but are kept for reference.
 
 Similarly, the main-text empirical figures (`figure4_coupling.py`, `figure5_insurance.py`) import panel-drawing functions from the individual analysis scripts. The supplementary empirical figures (`supplementary_figures_s6_s10.py`) draw the complementary panels from the same analysis scripts.
 

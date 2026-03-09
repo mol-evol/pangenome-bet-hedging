@@ -304,7 +304,7 @@ def load_horesh_data():
 # Statistical utilities
 # ==============================================================================
 
-def compute_jaccard_within_phylogroup(data, phylogroup, max_genomes=500):
+def compute_jaccard_within_phylogroup(data, phylogroup, max_genomes=5000):
     """Compute pairwise Jaccard distances within a phylogroup.
 
     Parameters
@@ -312,7 +312,7 @@ def compute_jaccard_within_phylogroup(data, phylogroup, max_genomes=500):
     data : dict from load_horesh_data()
     phylogroup : str
     max_genomes : int
-        Subsample if phylogroup has more genomes (for speed)
+        Subsample if phylogroup has more genomes (default 5000 = effectively all)
 
     Returns
     -------
@@ -456,12 +456,12 @@ def permanova_one_factor(dm_square, groups, n_perms=999):
     return {'F': f_obs, 'p': p, 'R2': r2}
 
 
-def run_global_permanova(data, max_per_group=100, n_perms=999):
+def run_global_permanova(data, max_per_group=5000, n_perms=999):
     """Run two PERMANOVAs: one for phylogroup effect, one for source effect.
 
-    Uses a subsample for speed.
+    Uses all genomes by default (max_per_group=5000 effectively no cap).
     """
-    # Subsample: take max_per_group genomes per phylogroup
+    # Subsample: take max_per_group genomes per phylogroup (effectively all)
     rng = np.random.default_rng(42)
     indices = []
     for pg in np.unique(data['phylogroup']):
@@ -496,7 +496,7 @@ def run_global_permanova(data, max_per_group=100, n_perms=999):
     }
 
 
-def compute_effect_per_phylogroup(data, max_genomes=300, n_perms=999):
+def compute_effect_per_phylogroup(data, max_genomes=5000, n_perms=999):
     """Compute environment effect size within each phylogroup separately."""
     results = []
     for pg in sorted(data['phylogroup_counts'].keys()):
@@ -620,7 +620,7 @@ def panel_b_permanova_decomposition(ax, data):
     """
     print('  Panel B: PERMANOVA variance decomposition...')
 
-    result = run_global_permanova(data, max_per_group=150, n_perms=999)
+    result = run_global_permanova(data, max_per_group=5000, n_perms=999)
 
     # Bar chart
     components = ['Phylogroup', 'Isolation\nsource', 'Residual']
@@ -647,29 +647,13 @@ def panel_b_permanova_decomposition(ax, data):
     p_pg_str = f'{result["p_phylogroup"]:.3f}'
     p_src_str = f'{result["p_source"]:.3f}'
     ax.text(0.95, 0.95,
-            f'n = {result["n_genomes"]} genomes\n'
-            f'Phylogroup: F={result["F_phylogroup"]:.1f}, p={p_pg_str}\n'
-            f'Source: F={result["F_source"]:.2f}, p={p_src_str}',
+            f'n = {result["n_genomes"]:,} genomes\n'
+            f'Phylogroup: F = {result["F_phylogroup"]:.1f}, p = {p_pg_str}\n'
+            f'Source: F = {result["F_source"]:.1f}, p = {p_src_str}',
             transform=ax.transAxes, fontsize=7, va='top', ha='right',
-            bbox=dict(boxstyle='round,pad=0.3', facecolor='lightyellow',
-                      edgecolor=COLORS['orange'], alpha=0.95),
+            bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+                      edgecolor=COLORS['grey'], alpha=0.9),
             family='monospace')
-
-    # A priori threshold annotation
-    if r2_src * 100 < 1:
-        interp = 'DECOUPLED\n(supports bet-hedging)'
-        fcolor = '#d4edda'
-    elif r2_src * 100 < 5:
-        interp = 'AMBIGUOUS'
-        fcolor = '#fff3cd'
-    else:
-        interp = 'COUPLED\n(supports local adaptation)'
-        fcolor = '#f8d7da'
-
-    ax.text(0.5, 0.5, interp, transform=ax.transAxes, fontsize=9,
-            ha='center', va='center', fontweight='bold',
-            bbox=dict(boxstyle='round,pad=0.5', facecolor=fcolor,
-                      edgecolor='grey', alpha=0.8))
 
     data['_panel_b_results'] = result
 
@@ -752,7 +736,7 @@ def panel_d_effect_across_phylogroups(ax, data):
     """
     print('  Panel D: Effect size across phylogroups...')
 
-    results = compute_effect_per_phylogroup(data, max_genomes=300, n_perms=999)
+    results = compute_effect_per_phylogroup(data, max_genomes=5000, n_perms=999)
 
     # Filter to computable
     computable = [r for r in results if r['computable']]
@@ -764,34 +748,40 @@ def panel_d_effect_across_phylogroups(ax, data):
         data['_panel_d_results'] = {'computable': []}
         return
 
-    labels = [f"{r['phylogroup']} (n={r['n']})" for r in computable]
+    labels = [f"{r['phylogroup']} (n={r['n']:,})" for r in computable]
     effects = [r['effect_size'] for r in computable]
     ci_lows = [r['ci_low'] for r in computable]
     ci_highs = [r['ci_high'] for r in computable]
-    r2s = [r['R2'] for r in computable]
 
-    y_pos = range(len(computable))
+    y_pos = list(range(len(computable)))
 
     # Plot
     ax.axvline(0, color=COLORS['grey'], linestyle=':', linewidth=0.8)
-    for i, (eff, lo, hi) in enumerate(zip(effects, ci_lows, ci_highs)):
+    for i, (eff, lo, hi, r) in enumerate(zip(effects, ci_lows, ci_highs,
+                                               computable)):
         color = COLORS['blue'] if abs(eff) < 0.05 else COLORS['orange']
-        ax.plot([lo, hi], [i, i], color=color, linewidth=2, solid_capstyle='round')
-        ax.plot(eff, i, 'o', color=color, markersize=7, zorder=5)
+        ax.plot([lo, hi], [i, i], color=color, linewidth=2.5,
+                solid_capstyle='round')
+        ax.plot(eff, i, 'o', color=color, markersize=8, zorder=5,
+                markeredgecolor='white', markeredgewidth=0.5)
 
-    ax.set_yticks(list(y_pos))
+        # Inline annotation to the right of each CI
+        p_str = f'{r["p"]:.3f}' if r["p"] >= 0.001 else f'{r["p"]:.1e}'
+        ax.annotate(f'R²={r["R2"]:.3f}, p={p_str}',
+                    xy=(hi + 0.005, i), fontsize=6.5, va='center',
+                    family='monospace', color=COLORS['grey'])
+
+    ax.set_yticks(y_pos)
     ax.set_yticklabels(labels, fontsize=8)
-    ax.set_xlabel('Rank-biserial effect size\n(0 = decoupled, + = same source more similar)')
+    ax.set_xlabel('Rank-biserial effect size')
     ax.set_title('Environment effect per phylogroup')
     ax.invert_yaxis()
 
-    # Annotate R² values
-    for i, r in enumerate(computable):
-        p_str = f'{r["p"]:.3f}' if r["p"] >= 0.001 else f'{r["p"]:.1e}'
-        ax.text(0.98, (i + 0.5) / (len(computable) + 1),
-                f'R²={r["R2"]:.4f}\np={p_str}',
-                transform=ax.transAxes, fontsize=6, va='center', ha='right',
-                family='monospace')
+    # Tighten x-axis: pad beyond data range
+    all_vals = ci_lows + ci_highs + effects
+    x_min = min(all_vals) - 0.02
+    x_max = max(all_vals) + 0.12  # room for annotations
+    ax.set_xlim(max(-0.05, x_min), x_max)
 
     data['_panel_d_results'] = {'computable': computable}
 

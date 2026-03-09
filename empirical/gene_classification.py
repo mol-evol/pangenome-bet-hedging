@@ -401,11 +401,60 @@ def panel_a_volcano(ax, data):
 
     neg_log_q = -np.log10(np.clip(q, 1e-300, 1))
 
-    # Plot each class
+    # Classification thresholds
+    q_line = -np.log10(0.05)   # ~1.3
+    v_niche = 0.10
+    v_insurance = 0.05
+
+    # Determine axis limits first so shading fills the full panel
+    v_max = max(v.max() * 1.08, 0.65)
+    y_max = max(neg_log_q.max() * 1.08, 10)
+
+    # ── Background shading for classification zones ──────────────────
+    from matplotlib.patches import Rectangle
+
+    # Insurance: q > 0.05 (below q-line, any V) OR V < 0.05 (any q)
+    # → bottom strip + left strip
+    ax.add_patch(Rectangle((0, 0), v_max, q_line,
+                            facecolor=COLORS['blue'], alpha=0.08,
+                            edgecolor='none', zorder=0))
+    ax.add_patch(Rectangle((0, q_line), v_insurance, y_max - q_line,
+                            facecolor=COLORS['blue'], alpha=0.08,
+                            edgecolor='none', zorder=0))
+
+    # Ambiguous: q < 0.05 AND 0.05 ≤ V ≤ 0.10
+    ax.add_patch(Rectangle((v_insurance, q_line),
+                            v_niche - v_insurance, y_max - q_line,
+                            facecolor=COLORS['grey'], alpha=0.08,
+                            edgecolor='none', zorder=0))
+
+    # Niche: q < 0.05 AND V > 0.10
+    ax.add_patch(Rectangle((v_niche, q_line),
+                            v_max - v_niche, y_max - q_line,
+                            facecolor=COLORS['red'], alpha=0.08,
+                            edgecolor='none', zorder=0))
+
+    # Zone labels
+    ax.text(v_max * 0.55, y_max * 0.92, 'Niche', fontsize=9,
+            color=COLORS['red'], alpha=0.5, fontweight='bold',
+            ha='center', va='top', zorder=1)
+    ax.text(0.025, y_max * 0.55, 'Insurance', fontsize=8,
+            color=COLORS['blue'], alpha=0.5, fontweight='bold',
+            ha='center', va='center', rotation=90, zorder=1)
+    ax.text((v_insurance + v_niche) / 2, y_max * 0.55, 'Ambig.',
+            fontsize=7, color=COLORS['grey'], alpha=0.5,
+            fontweight='bold', ha='center', va='center',
+            rotation=90, zorder=1)
+
+    # ── Plot points ──────────────────────────────────────────────────
+    n_niche = np.sum(labels == 'niche')
+    n_ins = np.sum(labels == 'insurance')
+    n_amb = np.sum(labels == 'ambiguous')
+
     for cls, color, zorder, alpha, ms in [
-        ('insurance', COLORS['blue'], 1, 0.3, 3),
-        ('ambiguous', COLORS['grey'], 2, 0.4, 3),
-        ('niche', COLORS['red'], 3, 0.7, 4),
+        ('insurance', COLORS['blue'], 2, 0.3, 3),
+        ('ambiguous', COLORS['grey'], 3, 0.4, 3),
+        ('niche', COLORS['red'], 4, 0.6, 4),
     ]:
         mask = labels == cls
         n_cls = mask.sum()
@@ -413,28 +462,22 @@ def panel_a_volcano(ax, data):
                    edgecolors='none', zorder=zorder,
                    label=f'{cls.capitalize()} (n={n_cls:,})')
 
-    # Threshold lines
-    ax.axhline(-np.log10(0.05), color='grey', linestyle='--', linewidth=0.8,
-               alpha=0.7)
-    ax.axvline(0.10, color='grey', linestyle='--', linewidth=0.8, alpha=0.7)
+    # ── Threshold lines ──────────────────────────────────────────────
+    ax.axhline(q_line, color=COLORS['grey'], linestyle='--', linewidth=0.8,
+               alpha=0.5, zorder=1)
+    ax.axvline(v_niche, color=COLORS['grey'], linestyle='--', linewidth=0.8,
+               alpha=0.5, zorder=1)
+    ax.axvline(v_insurance, color=COLORS['grey'], linestyle=':', linewidth=0.6,
+               alpha=0.4, zorder=1)
 
+    ax.set_xlim(0, v_max)
+    ax.set_ylim(0, y_max)
     ax.set_xlabel("Cramér's V (effect size)")
     ax.set_ylabel(r'$-\log_{10}$(q-value)')
     ax.set_title('Gene-environment association (B2)')
-    ax.legend(fontsize=7, loc='upper right', markerscale=3)
 
-    # Summary stats
-    n_niche = np.sum(labels == 'niche')
-    n_ins = np.sum(labels == 'insurance')
-    n_amb = np.sum(labels == 'ambiguous')
-    ax.text(0.02, 0.98,
-            f'Niche: {n_niche} ({n_niche/len(labels)*100:.1f}%)\n'
-            f'Insurance: {n_ins} ({n_ins/len(labels)*100:.1f}%)\n'
-            f'Ambiguous: {n_amb} ({n_amb/len(labels)*100:.1f}%)',
-            transform=ax.transAxes, fontsize=7, va='top', ha='left',
-            bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
-                      edgecolor=COLORS['grey'], alpha=0.9),
-            family='monospace')
+    ax.legend(fontsize=7, loc='upper right', markerscale=3,
+              framealpha=0.9, edgecolor=COLORS['grey'])
 
     data['_panel_a_results'] = {
         'n_niche': int(n_niche),
@@ -450,8 +493,11 @@ def panel_a_volcano(ax, data):
 def panel_b_pvalue_histogram(ax, data):
     """Panel B: P-value histogram with Storey π₀ line.
 
-    Under the null, p-values are uniform → the flat right portion
-    estimates π₀ × m / n_bins. The spike near 0 represents niche genes.
+    Uses a broken y-axis so both the massive spike near p=0 and the
+    flat null portion (where π₀ is estimated) are clearly visible.
+
+    The caller passes a single axes object; this function replaces it
+    with two vertically stacked subplots sharing the same x-axis.
     """
     print('  Panel B: P-value histogram...')
 
@@ -464,44 +510,101 @@ def panel_b_pvalue_histogram(ax, data):
     p = result['p_values']
     pi0_result = estimate_pi0(p)
     pi0 = pi0_result['pi0']
-
-    # Histogram
-    n_bins = 50
-    counts, edges, patches = ax.hist(p, bins=n_bins, density=False,
-                                      color=COLORS['blue'], alpha=0.7,
-                                      edgecolor='white', linewidth=0.3)
-
-    # π₀ line: expected count per bin under null = m × π₀ / n_bins
     m = len(p)
+
+    # ── Create broken y-axis via inset axes ──────────────────────────
+    # We'll draw on the original ax (bottom = zoomed-in) and create
+    # an inset for the top (full-range) portion.
+    fig = ax.get_figure()
+    pos = ax.get_position()
+
+    # Clear the original axes — we'll draw two new ones
+    ax.set_visible(False)
+
+    # Bottom axes: zoomed to show the flat null region + π₀ line
+    gap = 0.02  # gap between the two axes
+    bottom_frac = 0.55  # fraction of height for the bottom panel
+    h_bottom = (pos.height - gap) * bottom_frac
+    h_top = (pos.height - gap) * (1 - bottom_frac)
+
+    ax_bot = fig.add_axes([pos.x0, pos.y0, pos.width, h_bottom])
+    ax_top = fig.add_axes([pos.x0, pos.y0 + h_bottom + gap,
+                           pos.width, h_top])
+
+    # ── Compute histogram (shared bin edges) ─────────────────────────
+    n_bins = 25
+    counts, edges = np.histogram(p, bins=n_bins)
+    width = edges[1] - edges[0]
+    centres = (edges[:-1] + edges[1:]) / 2
+
     expected_per_bin = m * pi0 / n_bins
-    ax.axhline(expected_per_bin, color=COLORS['red'], linestyle='--',
-               linewidth=1.5,
-               label=r'$\pi_0$' + f' = {pi0:.3f} (insurance fraction)')
 
-    # Shade the "excess" near zero (niche genes)
-    for i, (patch, count) in enumerate(zip(patches, counts)):
-        if count > expected_per_bin * 1.5 and edges[i] < 0.1:
-            patch.set_facecolor(COLORS['orange'])
-            patch.set_alpha(0.9)
+    # Colour: orange for bins near zero with excess counts
+    bar_colors = []
+    for i, count in enumerate(counts):
+        if count > expected_per_bin * 1.5 and edges[i] < 0.15:
+            bar_colors.append(COLORS['orange'])
+        else:
+            bar_colors.append(COLORS['blue'])
 
-    ax.set_xlabel('p-value (per-gene chi-squared)')
-    ax.set_ylabel('Count')
-    ax.set_title('P-value distribution')
-    ax.legend(fontsize=8, loc='upper right')
+    # ── Draw on both axes ────────────────────────────────────────────
+    for a in (ax_top, ax_bot):
+        a.bar(centres, counts, width=width * 0.92, color=bar_colors,
+              alpha=0.75, edgecolor='white', linewidth=0.5)
+        a.axhline(expected_per_bin, color=COLORS['red'], linestyle='--',
+                  linewidth=1.5)
 
-    # Annotation
+    # ── Set y-limits ─────────────────────────────────────────────────
+    # Top: show the tall spikes
+    top_max = max(counts) * 1.15
+    ax_top.set_ylim(200, top_max)
+    # Bottom: show the flat null region clearly
+    ax_bot.set_ylim(0, 150)
+
+    # ── Broken-axis styling ──────────────────────────────────────────
+    ax_top.spines['bottom'].set_visible(False)
+    ax_bot.spines['top'].set_visible(False)
+    ax_top.tick_params(bottom=False, labelbottom=False)
+
+    # Diagonal break marks
+    d = 0.015
+    kwargs = dict(transform=ax_top.transAxes, color='k', clip_on=False,
+                  linewidth=0.8)
+    ax_top.plot((-d, +d), (-d * 2, +d * 2), **kwargs)
+    ax_top.plot((1 - d, 1 + d), (-d * 2, +d * 2), **kwargs)
+
+    kwargs.update(transform=ax_bot.transAxes)
+    ax_bot.plot((-d, +d), (1 - d * 2, 1 + d * 2), **kwargs)
+    ax_bot.plot((1 - d, 1 + d), (1 - d * 2, 1 + d * 2), **kwargs)
+
+    # Remove top/right spines to match other panels
+    for a in (ax_top, ax_bot):
+        a.spines['right'].set_visible(False)
+    ax_top.spines['top'].set_visible(False)
+
+    # ── Labels and annotations ───────────────────────────────────────
+    ax_bot.set_xlabel('p-value (per-gene chi-squared)')
+    ax_bot.set_ylabel('Count')
+    # Shift ylabel to span both axes
+    ax_bot.yaxis.set_label_coords(-0.1, 1.0 + gap / pos.height)
+    ax_top.set_title('P-value distribution (B2)')
+
+    # π₀ label on the bottom panel where the line is visible
+    ax_bot.text(0.55, expected_per_bin + 3,
+                r'$\hat\pi_0$' + f' = {pi0:.2f}',
+                fontsize=8, color=COLORS['red'], va='bottom')
+
+    # Summary annotation
     n_niche_est = int(m * (1 - pi0))
     n_ins_est = int(m * pi0)
-    n_exact = pi0_result.get('n_exact_null', 0)
-    ax.text(0.50, 0.95,
-            r'Combined $\pi_0$' + f' = {pi0:.3f}\n'
-            f'Zero-assoc. genes (p=1): {n_exact:,}\n'
-            f'Est. insurance total: {n_ins_est:,} ({pi0*100:.1f}%)\n'
-            f'Est. niche total: {n_niche_est:,} ({(1-pi0)*100:.1f}%)',
-            transform=ax.transAxes, fontsize=7, va='top', ha='center',
-            bbox=dict(boxstyle='round,pad=0.3', facecolor='lightyellow',
-                      edgecolor=COLORS['orange'], alpha=0.95),
-            family='monospace')
+    ax_bot.text(0.97, 0.92,
+                r'$\hat\pi_0$' + f' = {pi0:.3f}\n'
+                f'Insurance: ~{n_ins_est:,} ({pi0*100:.0f}%)\n'
+                f'Niche: ~{n_niche_est:,} ({(1-pi0)*100:.0f}%)',
+                transform=ax_bot.transAxes, fontsize=7, va='top', ha='right',
+                bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+                          edgecolor=COLORS['grey'], alpha=0.9),
+                family='monospace')
 
     data['_panel_b_results'] = {
         'pi0': pi0,
@@ -509,6 +612,9 @@ def panel_b_pvalue_histogram(ax, data):
         'n_insurance_est': n_ins_est,
         'n_niche_est': n_niche_est,
     }
+
+    # Return the top axes so the caller can add a panel label
+    return ax_top
 
 
 def panel_c_frequency_profiles(ax, data):
