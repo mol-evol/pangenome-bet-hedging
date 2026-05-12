@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prokaryotic Pangenomes as Bet-Hedging Devices</title>
+<title>Prokaryotic Pangenomes Are Bet-Hedging Devices</title>
 <style>
   :root {
     --bg: #fafbfc;
@@ -15,16 +15,19 @@
     --card-bg: #ffffff;
     --code-bg: #f0f3f6;
     --section-alt: #f4f7fa;
+    --highlight: #fff8dc;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Georgia', 'Charter', 'Iowan Old Style', serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.7;
-    font-size: 16px;
+    line-height: 1.75;
+    font-size: 18px;
   }
 
   /* ── Hero ── */
@@ -44,174 +47,203 @@
     opacity: 1;
   }
   .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+  .hero .kicker {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+    color: #b8d4e8;
+    margin-bottom: 1rem;
+  }
   .hero h1 {
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     font-weight: 700;
     letter-spacing: -0.5px;
     margin-bottom: 1rem;
-    line-height: 1.3;
+    line-height: 1.25;
   }
   .hero .subtitle {
-    font-size: 1.1rem;
-    color: #b8d4e8;
-    margin-bottom: 2rem;
-    max-width: 620px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 1.15rem;
+    color: #d0e2f0;
+    max-width: 640px;
+    margin: 0 auto 1.5rem;
+    font-style: italic;
   }
-  .hero-badges { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
-  .hero-badges img { height: 22px; }
+  .hero .byline {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #b8d4e8;
+    letter-spacing: 0.04em;
+  }
 
   /* ── Nav ── */
-  nav {
+  nav.toc {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
     padding: 0 2rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
   }
-  nav ul {
+  nav.toc ul {
     list-style: none;
     display: flex;
     gap: 0;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
     overflow-x: auto;
   }
-  nav a {
+  nav.toc a {
     display: block;
-    padding: 0.9rem 1.2rem;
+    padding: 0.85rem 1rem;
     color: var(--muted);
     text-decoration: none;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    letter-spacing: 0.02em;
     border-bottom: 2px solid transparent;
     transition: all 0.2s;
     white-space: nowrap;
   }
-  nav a:hover, nav a.active {
+  nav.toc a:hover, nav.toc a.active {
     color: var(--accent);
     border-bottom-color: var(--accent);
   }
 
-  /* ── Sections ── */
-  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
-  section { padding: 3.5rem 0; }
-  section.alt { background: var(--section-alt); }
-  section h2 {
-    font-size: 1.5rem;
+  /* ── Article ── */
+  article { max-width: 740px; margin: 0 auto; padding: 3rem 1.5rem 2rem; }
+  article section { padding: 1.5rem 0 0.5rem; }
+  article h2 {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 1.7rem;
     font-weight: 700;
     color: var(--accent);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--accent2);
-    display: inline-block;
+    margin: 2.2rem 0 1rem;
+    line-height: 1.3;
+    scroll-margin-top: 80px;
   }
-  section p { margin-bottom: 1rem; color: var(--text); }
-  section p.muted { color: var(--muted); font-size: 0.95rem; }
+  article h3 {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1.6rem 0 0.5rem;
+  }
+  article p {
+    margin-bottom: 1.2rem;
+    color: var(--text);
+  }
+  article p.lead {
+    font-size: 1.2rem;
+    color: var(--muted);
+    font-style: italic;
+    border-left: 3px solid var(--accent2);
+    padding-left: 1.2rem;
+    margin: 1.5rem 0 2rem;
+  }
+  article ul, article ol {
+    margin: 0 0 1.2rem 1.6rem;
+  }
+  article li {
+    margin-bottom: 0.6rem;
+  }
+  article a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: var(--accent2);
+    text-underline-offset: 3px;
+  }
+  article a:hover { color: var(--accent2); }
+  article em { font-style: italic; }
+  article strong { font-weight: 700; color: var(--text); }
 
-  /* ── Cards ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.2rem;
-    margin-top: 1.5rem;
-  }
-  .card {
+  /* ── Equation blocks ── */
+  .equation {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: box-shadow 0.2s, transform 0.2s;
-  }
-  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); transform: translateY(-2px); }
-  .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--accent); }
-  .card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.8rem; }
-  .card a {
-    font-size: 0.85rem;
-    color: var(--accent2);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .card a:hover { text-decoration: underline; }
-
-  /* ── Table ── */
-  .table-wrap { overflow-x: auto; margin-top: 1.2rem; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  thead { background: var(--accent); color: #fff; }
-  th { padding: 0.7rem 1rem; text-align: left; font-weight: 600; white-space: nowrap; }
-  td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); }
-  tbody tr:hover { background: #f0f5fa; }
-  td code {
-    background: var(--code-bg);
-    padding: 0.15em 0.45em;
-    border-radius: 4px;
-    font-size: 0.85em;
+    border-left: 4px solid var(--accent2);
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
     font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  }
-
-  /* ── Code blocks ── */
-  pre {
-    background: #0d1b2a;
-    color: #c9d1d9;
-    padding: 1.3rem 1.5rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-size: 0.88rem;
-    line-height: 1.6;
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    margin: 1rem 0;
-  }
-  pre .comment { color: #6a9955; }
-  pre .cmd { color: #5fa8d3; }
-
-  /* ── Preprint banner ── */
-  .preprint-banner {
-    background: linear-gradient(90deg, #1b4965, #2a6f97);
-    color: #fff;
+    font-size: 1.05rem;
     text-align: center;
-    padding: 0.8rem 1.5rem;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
+    color: var(--accent);
+    line-height: 1.6;
   }
-  .preprint-banner .dot {
-    width: 8px; height: 8px;
-    background: #fbbf24;
-    border-radius: 50%;
-    display: inline-block;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+  .equation .label {
+    display: block;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
   }
 
-  /* ── Directory tree ── */
-  .tree {
-    background: var(--code-bg);
-    border: 1px solid var(--border);
+  /* ── Pull-quote / key insight ── */
+  .key-insight {
+    background: var(--section-alt);
     border-radius: 8px;
-    padding: 1.3rem 1.5rem;
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 0.85rem;
-    line-height: 1.8;
-    overflow-x: auto;
-    margin: 1rem 0;
-    color: var(--muted);
+    padding: 1.3rem 1.6rem;
+    margin: 1.8rem 0;
+    border-left: 4px solid var(--accent);
   }
-  .tree span { color: var(--accent); font-weight: 600; }
+  .key-insight p { margin-bottom: 0; }
+  .key-insight .label {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    display: block;
+    font-weight: 600;
+  }
+
+  /* ── Inline code ── */
+  code {
+    background: var(--code-bg);
+    padding: 0.12em 0.4em;
+    border-radius: 4px;
+    font-size: 0.92em;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    color: var(--accent);
+  }
+
+  /* ── Links section at end ── */
+  .links {
+    background: var(--section-alt);
+    border-top: 1px solid var(--border);
+    padding: 3rem 1.5rem;
+    margin-top: 3rem;
+  }
+  .links-inner {
+    max-width: 740px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .links h3 {
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  .links a {
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .links a:hover { text-decoration: underline; }
+  .links p { margin-bottom: 0.6rem; font-size: 0.95rem; }
 
   /* ── Footer ── */
   footer {
     background: #0d1b2a;
     color: #8899aa;
     text-align: center;
-    padding: 2.5rem 2rem;
+    padding: 2rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     font-size: 0.85rem;
     line-height: 1.8;
   }
@@ -220,206 +252,697 @@
 
   /* ── Responsive ── */
   @media (max-width: 600px) {
+    body { font-size: 17px; }
     .hero { padding: 3rem 1.2rem 2.5rem; }
-    .hero h1 { font-size: 1.6rem; }
-    section { padding: 2.5rem 0; }
-    .container { padding: 0 1.2rem; }
-    nav a { padding: 0.8rem 0.8rem; font-size: 0.82rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero .subtitle { font-size: 1rem; }
+    article { padding: 2rem 1.2rem; }
+    article h2 { font-size: 1.4rem; }
+    .equation { font-size: 0.95rem; padding: 1rem; }
+    nav.toc a { padding: 0.7rem 0.8rem; font-size: 0.78rem; }
   }
 </style>
 </head>
 <body>
 
-<div class="preprint-banner">
-  <span class="dot"></span>
-  Preprint coming soon &mdash; check back for the bioRxiv link
-</div>
-
 <!-- ── Hero ── -->
 <header class="hero">
   <div class="hero-content">
-    <h1>Prokaryotic Pangenomes as Bet-Hedging Devices</h1>
+    <p class="kicker">Preprint &middot; Evolutionary biology</p>
+    <h1>Prokaryotic Pangenomes Are Bet-Hedging Devices</h1>
     <p class="subtitle">
-      A theoretical and empirical framework showing that accessory gene repertoires in prokaryotes function as evolved bet-hedging strategies under environmental uncertainty.
+      Prokaryotic pangenomes are not a quirk of bacterial genetics &mdash; they&rsquo;re the architecture
+      life evolves when the future is uncertain and fitness compounds multiplicatively.
     </p>
-    <div class="hero-badges">
-      <img src="https://img.shields.io/badge/python-3.9%2B-blue.svg" alt="Python 3.9+">
-      <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License">
-      <img src="https://img.shields.io/badge/DOI-pending-lightgrey.svg" alt="DOI pending">
-      <img src="https://img.shields.io/github/stars/mol-evol/pangenome-bet-hedging?style=social" alt="GitHub stars">
-    </div>
+    <p class="byline">
+      <a href="https://mol-evol.github.io/" target="_blank" style="color:#b8d4e8;text-decoration:none;border-bottom:1px solid rgba(184,212,232,0.4);">James O. McInerney</a>
+      &middot; May 2026
+    </p>
   </div>
 </header>
 
-<!-- ── Navigation ── -->
-<nav>
+<!-- ── TOC ── -->
+<nav class="toc">
   <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#figures">Figures</a></li>
-    <li><a href="#data">Data</a></li>
-    <li><a href="#code">Code</a></li>
-    <li><a href="#quickstart">Quick Start</a></li>
-    <li><a href="https://github.com/mol-evol/pangenome-bet-hedging">GitHub &nearr;</a></li>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#three-patterns">Three patterns</a></li>
+    <li><a href="#variance">Variance</a></li>
+    <li><a href="#hgt">HGT insurance</a></li>
+    <li><a href="#thresholds">Thresholds</a></li>
+    <li><a href="#u-shape">U-shape</a></li>
+    <li><a href="#empirical">Empirical test</a></li>
+    <li><a href="#cross-species">Cross-species</a></li>
+    <li><a href="#meaning">What this means</a></li>
+    <li><a href="#links">Links</a></li>
   </ul>
 </nav>
 
-<!-- ── About ── -->
-<section id="about">
-  <div class="container">
-    <h2>About the paper</h2>
+<article>
+
+<section id="intro">
+  <p class="lead">
+    When the first bacterial genomes were sequenced in the late 1990s, the working assumption was
+    that each species had a genome the way humans do. One species, one genome, with minor variation
+    around the edges. By the mid-2000s that idea had collapsed.
+  </p>
+
+  <p>
+    When you sequence multiple isolates of the same bacterial species, you find that they share a
+    smaller core of genes than expected, and each isolate also carries genes the others lack. The
+    total inventory of genes seen across the species, called the <strong>pangenome</strong>, is much
+    larger than what any single cell carries.
+  </p>
+
+  <p>
+    <em>E. coli</em> is the textbook case. The species pangenome holds over 160,000 genes. A single
+    <em>E. coli</em> cell carries around 5,000. The same pattern shows up in nearly every bacterial
+    species we&rsquo;ve looked at carefully. <em>Streptomyces</em> species have pangenomes exceeding
+    140,000 genes with individual genomes of 5,000 to 12,000. <em>Pseudomonas aeruginosa</em> has a
+    vast accessory gene pool. Even species with tighter genomes, like <em>Helicobacter pylori</em>,
+    show the same architecture in miniature.
+  </p>
+
+  <p>
+    This is universal in prokaryotes. It demands an explanation. So far, none of the explanations
+    on offer has done the job properly.
+  </p>
+
+  <p>
+    In a new preprint I argue that the answer is <strong>bet-hedging</strong>. Pangenomes exist
+    because bacteria face unpredictable environments, and the geometric mean of fitness punishes
+    variance much harder than the arithmetic mean rewards it. A distributed gene pool, held across
+    a population rather than inside any single cell, is the architecture that wins. Below I walk
+    through why.
+  </p>
+</section>
+
+<section id="three-patterns">
+  <h2>Three things that need explaining</h2>
+  <p>Any decent theory of pangenomes has to account for three patterns at once.</p>
+
+  <h3>1. Rare genes persist.</h3>
+  <p>
+    Most accessory genes are rare. They show up in a small fraction of genomes and stay there. They
+    don&rsquo;t drift to fixation, and they don&rsquo;t disappear. This is hard to explain by neutral
+    drift alone, which would push rare genes toward loss on reasonable timescales.
+  </p>
+
+  <h3>2. Pangenome size tracks environmental complexity.</h3>
+  <p>
+    Obligate intracellular bacteria like <em>Chlamydia</em> live in stable environments and have
+    small, nearly closed pangenomes. Free-living generalists like <em>E. coli</em> have huge open
+    pangenomes. The pattern is consistent. More environmental variety, more accessory genes. But
+    existing frameworks give no quantitative threshold for when this kicks in.
+  </p>
+
+  <h3>3. The pangenome grows without bound while individual genomes stay small.</h3>
+  <p>
+    <em>Streptomyces</em> may carry 140,000 genes across the species, but no individual
+    <em>Streptomyces</em> cell has more than ~12,000. Selfish-element theory can explain why genetic
+    parasites accumulate, but most pangenome genes aren&rsquo;t parasites. They&rsquo;re metabolic
+    enzymes, transporters, resistance genes. Functional.
+  </p>
+
+  <p>
+    A successful theory needs to explain all three at once, and ideally produce them from a small
+    number of starting assumptions. That&rsquo;s what bet-hedging does.
+  </p>
+</section>
+
+<section id="variance">
+  <h2>Why variance is so dangerous</h2>
+
+  <p>
+    The argument starts with a fact about how fitness works across generations. Fitness compounds
+    multiplicatively. If a population grows by a factor of <em>w</em> every generation, then after
+    <em>n</em> generations the population size is <em>w</em>&#8321; &times; <em>w</em>&#8322; &times;
+    <em>w</em>&#8323; &times; &hellip; &times; <em>w<sub>n</sub></em>. The relevant measure of
+    long-term success isn&rsquo;t the average per-generation fitness. It&rsquo;s the product of
+    fitnesses, and the long-run growth rate is governed by the <strong>geometric mean</strong>, not
+    the arithmetic mean.
+  </p>
+
+  <p>
+    This matters because the geometric mean is always less than or equal to the arithmetic mean,
+    with equality only when there is zero variance. For small fluctuations, the gap between them is
+    well approximated by:
+  </p>
+
+  <div class="equation">
+    <span class="label">Variance penalty</span>
+    variance penalty &asymp; &sigma;&sup2; / 2&mu;&sup2;
+  </div>
+
+  <p>
+    Here &sigma;&sup2; is the variance in fitness across generations and &mu; is the arithmetic
+    mean. The penalty grows with the square of the fluctuations. Big swings cost you much more than
+    small ones.
+  </p>
+
+  <p>
+    The intuition is simple if you think about gambling. Suppose I offer you a bet where you gain
+    50% on heads and lose 50% on tails. The arithmetic average of those returns is zero. Sounds
+    fair.
+  </p>
+
+  <p>
+    Play it four times: heads, tails, heads, tails. Starting with &pound;100, you go to &pound;150,
+    then &pound;75, then &pound;112.50, then &pound;56.25. Two wins and two losses, balanced, and
+    you&rsquo;re down to 56% of where you started. The order doesn&rsquo;t matter, because
+    multiplication doesn&rsquo;t care: 1 &times; 1.5 &times; 0.5 &times; 1.5 &times; 0.5 = 0.5625
+    no matter how you arrange the rounds. Keep playing and you head toward zero.
+  </p>
+
+  <p>
+    This is the fundamental asymmetry of multiplicative processes. A 50% loss requires a 100% gain
+    to recover. A 90% loss requires a 900% gain. The deeper the hole, the more disproportionately
+    large the climb out. Long losing streaks need even longer winning streaks to recover from, and
+    deep enough losses can&rsquo;t be recovered at all.
+  </p>
+
+  <p>
+    Now replace &ldquo;lose 50%&rdquo; with &ldquo;lose everything,&rdquo; which is what extinction
+    looks like in biology. There is no winning streak that recovers from zero. Variance does more
+    than slow growth. It creates the risk of catastrophe, and catastrophe is permanent.
+  </p>
+
+  <div class="key-insight">
+    <span class="label">Key result</span>
     <p>
-      Prokaryotic pangenomes &mdash; the full complement of genes found across a species &mdash; are
-      typically partitioned into a conserved &ldquo;core&rdquo; and a variable &ldquo;accessory&rdquo; genome.
-      The accessory genome can comprise the majority of a species&rsquo; gene repertoire,
-      yet the evolutionary logic governing its composition has remained unclear.
+      The simulations in Figure&nbsp;1 of the paper make this concrete. Three populations have
+      arithmetic mean fitness of 1.0. One has zero variance. One has moderate variance
+      (&sigma;&sup2; = 0.04). One has high variance (&sigma;&sup2; = 0.25). After 1,000 generations,
+      the high-variance population is 10&#8310;&sup3; times smaller than the zero-variance
+      population. They have the same mean. They end up in different universes.
     </p>
+  </div>
+
+  <p>
+    The implication is that any biological architecture that reduces variance in fitness will
+    outcompete architectures that don&rsquo;t, even if it accepts a slight reduction in mean
+    fitness as the cost. This is bet-hedging. Trading arithmetic mean for geometric mean.
+  </p>
+</section>
+
+<section id="hgt">
+  <h2>How horizontal gene transfer provides the insurance</h2>
+
+  <p>
+    Bacteria swap genes between lineages. Conjugation, transformation, transduction, gene transfer
+    agents. The mechanisms vary, but the upshot is that prokaryotic genomes are porous. Horizontal
+    gene transfer (HGT) moves genes between individuals and between species.
+  </p>
+
+  <p>
+    Without HGT, a gene that is costly on average would be eliminated by selection. The cell
+    carrying it pays a small fitness cost most of the time, and in the rare generations where the
+    gene is useful, it isn&rsquo;t enough to offset the cumulative drag. Selection wins. Gene gone.
+  </p>
+
+  <p>
+    With HGT, the picture changes. Even after selection purges a costly gene from most carriers,
+    HGT keeps reintroducing it. The gene reaches a stable equilibrium frequency in the population,
+    low but non-zero. When the environment switches and the gene becomes useful, the cells carrying
+    it bloom. The population survives the shift.
+  </p>
+
+  <p>
+    This is the insurance reservoir. Each gene at low frequency is a hedge against a future
+    environment in which it pays off. The premium you pay is a small reduction in mean fitness,
+    because some cells are always carrying costly genes. The payout is avoiding extinction when
+    conditions change.
+  </p>
+
+  <p>
+    Figure&nbsp;1 of the paper shows the trade-off directly. Without HGT, costly genes go to zero.
+    With HGT, they sit at stable equilibrium frequencies. Mean fitness drops slightly with
+    increasing HGT rate, which is the cost of the insurance. The optimal HGT rate isn&rsquo;t zero
+    and isn&rsquo;t very high. It peaks at intermediate environmental switching rates, which makes
+    sense. Insurance is most valuable when the future is genuinely uncertain.
+  </p>
+</section>
+
+<section id="thresholds">
+  <h2>The first threshold: which genes selection alone keeps</h2>
+
+  <p>To make this quantitative, define some parameters for a single accessory gene.</p>
+
+  <ul>
+    <li><strong>s</strong> = the selective benefit when the gene is useful (cells carrying it have fitness 1 + <em>s</em> in the right environment)</li>
+    <li><strong>c</strong> = the carriage cost when the gene isn&rsquo;t useful (cells carrying it have fitness 1 &minus; <em>c</em> in the wrong environment)</li>
+    <li><strong>p</strong> = the probability that the gene&rsquo;s beneficial environment occurs in any given generation</li>
+  </ul>
+
+  <p>The net expected selection on the gene is:</p>
+
+  <div class="equation">
+    <span class="label">Net selection</span>
+    s<sub>net</sub> = sp &minus; c(1 &minus; p)
+  </div>
+
+  <p>
+    This is just the average benefit minus the average cost, weighted by how often each happens.
+    If <em>s</em><sub>net</sub> is positive, selection favours the gene. If negative, selection
+    purges it.
+  </p>
+
+  <p>
+    The break-even point is where <em>s</em><sub>net</sub> = 0. Solving for <em>p</em> gives the
+    selection direction threshold:
+  </p>
+
+  <div class="equation">
+    <span class="label">Selection direction threshold</span>
+    p* = c / (s + c)
+  </div>
+
+  <p>
+    This is the first key equation. Read it as follows. A gene is favoured by selection if it is
+    useful more often than <em>p</em>*. Below <em>p</em>*, selection works against it.
+  </p>
+
+  <p>
+    Plug in some numbers to see how it behaves. If the carriage cost is small (<em>c</em> = 0.02)
+    and the benefit when useful is substantial (<em>s</em> = 0.3), then
+    <em>p</em>* = 0.02&nbsp;/&nbsp;0.32 &asymp; 0.063. So a gene needs to be useful in more than
+    about 6% of generations to be net favoured. If it&rsquo;s useful less often than that,
+    selection alone will eliminate it.
+  </p>
+
+  <p>
+    The selection direction threshold is asymmetric in a useful way. Cheap genes with big benefits
+    have low <em>p</em>*, meaning even rarely useful versions are worth keeping. Expensive genes
+    with marginal benefits have high <em>p</em>*, meaning they need to be useful often to justify
+    themselves. This asymmetry is one source of the U-shaped distribution we see in real
+    pangenomes.
+  </p>
+
+  <h3>The equilibrium frequency: how HGT sets the level</h3>
+
+  <p>
+    For genes below <em>p</em>* (the ones selection alone would eliminate), HGT keeps them in the
+    population at a stable equilibrium frequency. At equilibrium, the rate at which HGT introduces
+    the gene to new cells balances the rate at which selection removes it. This gives:
+  </p>
+
+  <div class="equation">
+    <span class="label">HGT-selection equilibrium</span>
+    f &asymp; h / |s<sub>net</sub>|
+  </div>
+
+  <p>
+    Here <em>h</em> is the HGT rate and |<em>s</em><sub>net</sub>| is the absolute value of the net
+    selection coefficient against the gene. The bigger the HGT rate, the higher the equilibrium
+    frequency. The stronger selection works against the gene, the lower the equilibrium.
+  </p>
+
+  <p>
+    This is mathematically the same form as classical mutation-selection balance, with HGT rate
+    substituting for mutation rate. Migration-selection balance has the same structure too. The
+    general principle is that any process introducing a deleterious allele balances against
+    selection removing it, and the equilibrium is the ratio.
+  </p>
+
+  <p>
+    Real HGT rates vary by many orders of magnitude. Conjugative plasmids and integrative
+    conjugative elements can transfer at rates <em>h</em> ~ 10&#8315;&sup2; per cell per generation.
+    Chromosomal genes requiring rare homologous recombination transfer at rates
+    <em>h</em> ~ 10&#8315;&#8310; to 10&#8315;&#8312;. Plug those into the equilibrium equation and
+    you get equilibrium frequencies spanning 30% down to below 1%, which matches the empirical
+    spread of accessory gene frequencies in real pangenomes.
+  </p>
+
+  <h3>Why one genome can&rsquo;t carry everything</h3>
+
+  <p>
+    So far the argument has worked one gene at a time. But a real genome carries thousands of genes
+    simultaneously. Each one imposes its own carriage cost. The costs add up. The benefits
+    don&rsquo;t, because in any given environment only a few of the contingency genes are actually
+    being used.
+  </p>
+
+  <p>
+    Imagine a bacterium facing <em>E</em> distinct adaptive challenges, with each challenge
+    requiring its own gene. If the bacterium carries genes for all <em>E</em> challenges, it pays
+    cost <em>cE</em> every generation. But it only benefits from whichever challenge happens to be
+    active that generation, giving expected benefit <em>s</em>.
+  </p>
+
+  <p>
+    Looking at a single gene in this collection: it costs <em>c</em> every generation, and benefits
+    <em>s</em> with probability 1/<em>E</em>. Net expected value per gene is:
+  </p>
+
+  <div class="equation">
+    <span class="label">Per-gene expected value</span>
+    expected value per gene = s/E &minus; c
+  </div>
+
+  <p>
+    This is positive only when <em>E</em> &lt; <em>s</em>/<em>c</em>. Define the complexity
+    threshold:
+  </p>
+
+  <div class="equation">
+    <span class="label">Complexity threshold</span>
+    E<sub>crit</sub> = s / c
+  </div>
+
+  <p>
+    This is the second key equation. Below <em>E</em><sub>crit</sub>, individual genes still pay
+    their way in expectation. A bacterium can afford to carry coverage for every contingency.
+    Above <em>E</em><sub>crit</sub>, the maths flips. Each individual gene now has negative
+    expected value, because it&rsquo;s so rarely useful that its cost can&rsquo;t be recovered.
+  </p>
+
+  <p>
+    What happens above <em>E</em><sub>crit</sub>? Carrying coverage for everything becomes a losing
+    strategy. Selection forces individual genomes down toward minimal coverage, holding only the
+    genes that are useful often enough to pay for themselves. But the population as a whole still
+    needs broad coverage to handle environmental variety. The only way to square this is to
+    distribute the burden. Different cells carry different genes. No individual is comprehensive,
+    but the population is.
+  </p>
+
+  <div class="key-insight">
+    <span class="label">Phase transition</span>
     <p>
-      This work presents a unifying explanation: <strong>pangenome structure is a bet-hedging device</strong>.
-      Through mathematical modelling and analysis of &gt;10,000 <em>E. coli</em> genomes and 670 prokaryotic species,
-      I show that maintaining within-population gene-content diversity acts as a form of biological insurance.
-      Lineages that spread their genetic &ldquo;investments&rdquo; across environments via accessory gene portfolios
-      reduce long-term fitness variance, analogous to portfolio diversification in financial theory.
+      This is the moment the distributed pangenome becomes obligate. The only strategy left
+      standing. Using the numbers from earlier (<em>s</em> = 0.3, <em>c</em> = 0.02),
+      <em>E</em><sub>crit</sub> = 15. So a bacterium facing more than 15 distinct adaptive
+      challenges cannot afford to be a generalist at the individual level. It must distribute.
     </p>
+  </div>
+
+  <p>
+    This matches the empirical pattern. Bacteria in simple, stable environments (low <em>E</em>)
+    have small closed pangenomes. Bacteria in complex, variable environments (high <em>E</em>)
+    have huge open pangenomes. The threshold predicts where the transition happens.
+  </p>
+</section>
+
+<section id="u-shape">
+  <h2>The U-shaped distribution falls out for free</h2>
+
+  <p>
+    Once you have <em>p</em>* and HGT-selection balance, the U-shaped distribution of gene
+    frequencies that we see in every pangenome study just emerges. Here&rsquo;s why.
+  </p>
+
+  <p>
+    Each gene has its own <em>p</em>* depending on its specific cost and benefit. Real bacterial
+    genes span a wide range of <em>c</em>/<em>s</em> ratios, so they span a wide range of
+    <em>p</em>* values. Now think about the environment. The probability that a given environment
+    occurs (the gene&rsquo;s actual <em>p</em>) is also a distribution. Most environments are rare,
+    a few are common. This is a generic feature of ecological variability.
+  </p>
+
+  <p>
+    When you cross these two distributions, you get a U-shape. Many genes have <em>p</em> well
+    above their own <em>p</em>*, so they&rsquo;re nearly fixed (the right peak of the U: the core).
+    Many genes have <em>p</em> well below their own <em>p</em>*, so they&rsquo;re held at low
+    equilibrium by HGT (the left peak of the U: the rare accessories). Few genes happen to sit in
+    the narrow band where their <em>p</em> is close to their <em>p</em>*, which is what would
+    produce intermediate frequencies.
+  </p>
+
+  <p>
+    The U-shape isn&rsquo;t a separate phenomenon needing its own explanation. It&rsquo;s a
+    consequence of the two thresholds.
+  </p>
+</section>
+
+<section id="empirical">
+  <h2>The empirical test: insurance versus niche adaptation</h2>
+
+  <p>
+    Theory is one thing. The decisive question is whether real pangenomes look like bet-hedging
+    when you actually look.
+  </p>
+
+  <p>
+    The alternative to bet-hedging is <strong>niche adaptation</strong>. Under niche adaptation,
+    accessory genes are tied to specific environments. A gene that helps in the gut is present in
+    gut-isolated bacteria and absent elsewhere. Under bet-hedging, the same gene should be present
+    in gut isolates more often, but it should also be substantially present in bacteria isolated
+    from other body sites, carried as insurance against environmental shifts.
+  </p>
+
+  <p>
+    These two models make different predictions about the same data, and the <em>E. coli</em>
+    pangenome has the statistical power to distinguish them.
+  </p>
+
+  <p>
+    I used the Horesh dataset of over 10,000 <em>E. coli</em> genomes, focusing on 1,705 phylogroup
+    B2 isolates from three body sites: blood, feces, and urine. These three are physiologically
+    distinct (different pH, oxygen levels, nutrient profiles), so they should impose different
+    selection pressures on accessory genes.
+  </p>
+
+  <p>
+    <strong>The first observation:</strong> gene content really does track body site. PERMANOVA
+    decomposition shows that 13% of variance in accessory gene content is explained by isolation
+    source, with 43% by phylogroup and 44% residual. So there is real environment coupling. Niche
+    adaptation has some grip on the data.
+  </p>
+
+  <p>
+    <strong>The second observation:</strong> niche genes are heavily retained in away environments.
+    For every gene classified as niche-specific, I defined its &ldquo;home&rdquo; body site as the
+    one where it occurs most often, and measured its frequency in the best &ldquo;away&rdquo; site.
+    The ratio is the retention fraction.
+  </p>
+
+  <p>
+    Under strict niche adaptation, retention should be close to zero. Genes adapted to the gut
+    shouldn&rsquo;t be carried in blood isolates.
+  </p>
+
+  <div class="key-insight">
+    <span class="label">Observation</span>
     <p>
-      Horizontal gene transfer (HGT) emerges as the mechanism that sustains these diversified portfolios
-      at equilibrium, and the characteristic U-shaped gene-frequency distribution observed across
-      pangenomes arises naturally from the model without additional assumptions.
-    </p>
-    <p class="muted">
-      This repository contains all simulation and analysis code required to reproduce every figure in the manuscript.
-    </p>
-  </div>
-</section>
-
-<!-- ── Figures ── -->
-<section id="figures" class="alt">
-  <div class="container">
-    <h2>Figure&ndash;script mapping</h2>
-    <p>The manuscript contains 5 main figures and 11 supplementary figures. Each is generated by a dedicated Python script.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Figure</th><th>Script</th><th>Description</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Fig 1 (A&ndash;E)</td><td><code>figure1_variance_mechanism.py</code></td><td>Variance cost of environmental mismatch + HGT mechanism</td></tr>
-          <tr><td>Fig 2 (A&ndash;D)</td><td><code>figure2_hgt.py</code></td><td>Gene frequency equilibrium under horizontal gene transfer</td></tr>
-          <tr><td>Fig 3 (A&ndash;F)</td><td><code>figure3_ushape_complexity.py</code></td><td>U-shaped gene-frequency distribution + complexity threshold</td></tr>
-          <tr><td>Fig 4 (A&ndash;D)</td><td><code>figure4_coupling.py</code></td><td><em>E.&nbsp;coli</em> environment coupling + gene classification</td></tr>
-          <tr><td>Fig 5 (A&ndash;F)</td><td><code>figure5_insurance.py</code></td><td>Niche insurance, simulation + fitness landscape</td></tr>
-          <tr><td>Fig S1</td><td><code>supplementary_figure_s1_frequency.py</code></td><td>Optimal population diversity</td></tr>
-          <tr><td>Fig S2</td><td><code>supplementary_figure_s2_parameter_sensitivity.py</code></td><td>Parameter sensitivity analysis</td></tr>
-          <tr><td>Fig S3</td><td><code>supplementary_figure_s3_hgt_optimization.py</code></td><td>HGT rate optimisation</td></tr>
-          <tr><td>Fig S4</td><td><code>selection_analysis.py</code></td><td>Cross-species purifying selection signatures</td></tr>
-          <tr><td>Fig S5</td><td><code>variance_analysis.py</code></td><td>Cross-species variance constraint</td></tr>
-          <tr><td>Figs S6&ndash;S10</td><td><code>supplementary_figures_s6_s10.py</code></td><td>Supplementary empirical panels</td></tr>
-          <tr><td>Fig S11</td><td><code>supplementary_figure_s11_contamination.py</code></td><td>Label noise sensitivity analysis</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ── Data ── -->
-<section id="data">
-  <div class="container">
-    <h2>Datasets</h2>
-    <p>All analyses use publicly available data. The large <em>E.&nbsp;coli</em> dataset is downloaded on demand via the included helper script.</p>
-    <div class="card-grid">
-      <div class="card">
-        <h3>Horesh et al. (2021)</h3>
-        <p>Gene presence/absence matrix and isolation-source metadata for 10,146 <em>E.&nbsp;coli</em> genomes. ~790 MB.</p>
-        <a href="https://doi.org/10.6084/m9.figshare.13270073" target="_blank">Figshare &rarr;</a>
-        &nbsp;&middot;&nbsp;
-        <a href="https://doi.org/10.1099/mgen.0.000499" target="_blank">Paper &rarr;</a>
-      </div>
-      <div class="card">
-        <h3>Douglas &amp; Shapiro (2024)</h3>
-        <p>Pangenome and related metrics for 670 prokaryotic species. Included in the repository (92 KB, compressed).</p>
-        <a href="https://github.com/mol-evol/pangenome-bet-hedging/tree/main/data/douglas_shapiro" target="_blank">View in repo &rarr;</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Code structure ── -->
-<section id="code" class="alt">
-  <div class="container">
-    <h2>Repository structure</h2>
-    <p>The codebase follows a modular architecture. Merged figure scripts import panel functions from component modules, keeping each analysis self-contained.</p>
-    <div class="tree">
-      <span>pangenome-bet-hedging/</span><br>
-      &ensp;&ensp;run_figures.py&emsp;&emsp;&emsp;&emsp;&emsp;<em>Batch runner &mdash; entry point for all figures</em><br>
-      &ensp;&ensp;requirements.txt&emsp;&emsp;&emsp;&ensp;<em>Python dependencies</em><br>
-      &ensp;&ensp;<span>shared/</span><br>
-      &ensp;&ensp;&ensp;&ensp;params.py&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<em>Model parameters</em><br>
-      &ensp;&ensp;&ensp;&ensp;plotting.py&emsp;&emsp;&emsp;&emsp;&emsp;<em>Colour palette, figure setup, export</em><br>
-      &ensp;&ensp;<span>figures/</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<em>Theory &amp; simulation scripts</em><br>
-      &ensp;&ensp;&ensp;&ensp;figure1_variance_mechanism.py&emsp;&emsp;&emsp;<em>Fig 1 (A&ndash;E)</em><br>
-      &ensp;&ensp;&ensp;&ensp;figure2_hgt.py&emsp;&emsp;&emsp;&emsp;&ensp;<em>Fig 2 (A&ndash;D)</em><br>
-      &ensp;&ensp;&ensp;&ensp;figure3_ushape_complexity.py&emsp;&emsp;&emsp;<em>Fig 3 (A&ndash;F)</em><br>
-      &ensp;&ensp;&ensp;&ensp;supplementary_*.py&emsp;&emsp;&ensp;<em>Figs S1&ndash;S3</em><br>
-      &ensp;&ensp;<span>empirical/</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<em>Data analyses (E. coli + cross-species)</em><br>
-      &ensp;&ensp;&ensp;&ensp;figure4_coupling.py&emsp;&emsp;&ensp;<em>Fig 4</em><br>
-      &ensp;&ensp;&ensp;&ensp;figure5_insurance.py&emsp;&emsp;<em>Fig 5</em><br>
-      &ensp;&ensp;&ensp;&ensp;*_analysis.py&emsp;&emsp;&emsp;&emsp;&ensp;<em>Individual analysis modules</em><br>
-      &ensp;&ensp;&ensp;&ensp;test_*.py&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;<em>Unit tests</em><br>
-      &ensp;&ensp;<span>data/</span><br>
-      &ensp;&ensp;&ensp;&ensp;download_data.sh&emsp;&emsp;&emsp;&ensp;<em>Fetches Horesh et al. from Figshare</em><br>
-      &ensp;&ensp;&ensp;&ensp;douglas_shapiro/&emsp;&emsp;&emsp;&ensp;<em>Cross-species metrics (included)</em><br>
-    </div>
-    <p style="margin-top:1rem;">
-      <a href="https://github.com/mol-evol/pangenome-bet-hedging" target="_blank" style="color:var(--accent2);text-decoration:none;font-weight:600;">Browse the full repository on GitHub &rarr;</a>
+      The median retention is <strong>0.63</strong>. Niche genes are kept at nearly two-thirds of
+      their home frequency in non-home environments. Only 1% of niche genes have retention below
+      0.20. Even genes with the strongest niche signal (top quartile of effect size) have median
+      retention of 0.61. These genes are not absent from the wrong environment. They are heavily
+      present.
     </p>
   </div>
-</section>
 
-<!-- ── Quick start ── -->
-<section id="quickstart">
-  <div class="container">
-    <h2>Quick start</h2>
-    <p>Clone the repository, install dependencies, download the data, and generate figures:</p>
-    <pre><span class="comment"># Clone and set up</span>
-<span class="cmd">git clone</span> https://github.com/mol-evol/pangenome-bet-hedging.git
-<span class="cmd">cd</span> pangenome-bet-hedging
-<span class="cmd">pip install</span> -r requirements.txt
+  <p>
+    This already looks more like bet-hedging than niche adaptation. But there&rsquo;s a sharper
+    test.
+  </p>
 
-<span class="comment"># Download the Horesh et al. dataset (~790 MB)</span>
-<span class="cmd">cd</span> data && <span class="cmd">bash</span> download_data.sh && <span class="cmd">cd</span> ..
+  <h3>The decisive test: the slope</h3>
 
-<span class="comment"># Generate all figures</span>
-<span class="cmd">python</span> run_figures.py --all
+  <p>
+    Migration-selection balance can in principle produce retention of niche genes in away
+    environments. If migration is fast and selection against the gene in the away environment is
+    weak, the gene will still be present in away environments at some equilibrium frequency.
+  </p>
 
-<span class="comment"># Or generate specific figures</span>
-<span class="cmd">python</span> run_figures.py --figures 1 3        <span class="comment"># main figures 1 and 3</span>
-<span class="cmd">python</span> run_figures.py --supplementary         <span class="comment"># all supplementary figures</span>
-<span class="cmd">python</span> run_figures.py --figures 4 5          <span class="comment"># empirical figures</span>
-<span class="cmd">python</span> run_figures.py --quick                <span class="comment"># fast mode (fewer replicates)</span>
-<span class="cmd">python</span> run_figures.py --dry-run              <span class="comment"># preview commands only</span></pre>
+  <p>
+    The way to distinguish migration-selection balance from bet-hedging is to look at how retention
+    scales with niche-effect size. Under migration-selection balance, genes with stronger niche
+    effects (higher Cram&eacute;r&rsquo;s V, which measures the strength of the gene-environment
+    association) should face stronger counter-selection in away niches. So you&rsquo;d expect a
+    steep negative relationship between effect size and retention.
+  </p>
 
-    <p>Output is saved to <code style="background:var(--code-bg);padding:0.15em 0.45em;border-radius:4px;font-size:0.9em;">output/</code> by default. Override with <code style="background:var(--code-bg);padding:0.15em 0.45em;border-radius:4px;font-size:0.9em;">--output-dir PATH</code>.</p>
+  <p>
+    Under bet-hedging, this relationship should be flat. Insurance logic is symmetric across
+    environments, so the strength of a gene&rsquo;s niche association in its home environment
+    shouldn&rsquo;t predict how much of it gets retained away.
+  </p>
 
-    <h3 style="margin-top:2rem;margin-bottom:0.8rem;font-size:1.1rem;color:var(--accent);">Running tests</h3>
-    <pre><span class="cmd">python</span> -m pytest empirical/test_*.py -v</pre>
+  <p>
+    I ran 500 simulations under each model to see what the slope (R&sup2;) looks like in each
+    scenario. Migration-selection balance produces R&sup2; &asymp; 0.41 (median). Bet-hedging
+    produces R&sup2; &asymp; 0.07. These distributions don&rsquo;t overlap.
+  </p>
+
+  <div class="key-insight">
+    <span class="label">Decisive result</span>
+    <p>
+      The observed value in <em>E. coli</em> is R&sup2; = <strong>0.076</strong>. Sits cleanly
+      inside the bet-hedging distribution. Sits entirely outside the migration distribution. The
+      lowest R&sup2; produced by any of 500 migration simulations was 0.383, more than five times
+      the observed value.
+    </p>
   </div>
+
+  <p>
+    The retention of niche genes in away environments has the statistical signature of bet-hedging,
+    not migration-selection balance.
+  </p>
+
+  <h3>Fitness consequences</h3>
+
+  <p>
+    Pattern doesn&rsquo;t automatically imply functional consequence. To check that the bet-hedging
+    architecture actually affects fitness, I compared three strategies on the same gene set:
+  </p>
+
+  <ol>
+    <li><strong>Pure niche:</strong> carry only genes optimised for the current home environment.</li>
+    <li><strong>Pure bet-hedging:</strong> carry every gene at its cross-niche mean frequency.</li>
+    <li><strong>Observed <em>E. coli</em>:</strong> use the actual per-niche frequencies measured in the data.</li>
+  </ol>
+
+  <p>
+    For each, I computed expected fitness as a product across genes, integrating over environmental
+    switching rates.
+  </p>
+
+  <p>
+    The pure niche strategy loses 55% of fitness at <em>p</em> = 0 (no switching). Purging
+    away-niche genes is expensive when the environment shifts. The observed strategy performs
+    within 4% of pure bet-hedging at every switching rate tested. Even in the worst transition,
+    the observed strategy retains 96% of fitness while pure niche retains only 60%.
+  </p>
+
+  <p>
+    <em>E. coli</em> is, in fitness terms, almost a pure bet-hedger with some niche flavouring on
+    top.
+  </p>
 </section>
+
+<section id="cross-species">
+  <h2>The cross-species check</h2>
+
+  <p>
+    If bet-hedging is a general principle, the variance constraint should show up across species,
+    not just within <em>E. coli</em>.
+  </p>
+
+  <p>
+    I reanalysed pangenome data from 670 prokaryotic species, comparing functional genes to
+    pseudogenes. Pseudogenes are useful because they evolve without selective constraint and serve
+    as a neutral baseline for gene turnover.
+  </p>
+
+  <p>
+    Two patterns emerge. <strong>First,</strong> functional accessory genes have singleton rates
+    roughly 8.5-fold lower than pseudogenes. Functional genes are shared across genomes at stable
+    frequencies. Pseudogenes turn over rapidly, each confined to the genome it arose in. This is
+    what HGT-selection balance predicts.
+  </p>
+
+  <p>
+    <strong>Second,</strong> the coefficient of variation of gene content is systematically lower
+    than the coefficient of variation of pseudogene content at matched means. And this constraint
+    tightens with selection intensity. Species under stronger purifying selection (lower
+    d<sub>N</sub>/d<sub>S</sub>) show proportionally less variance in gene content.
+  </p>
+
+  <p>
+    Selection isn&rsquo;t just retaining useful genes. It is suppressing variance. That is the
+    cross-species signature of bet-hedging.
+  </p>
+</section>
+
+<section id="meaning">
+  <h2>What this means</h2>
+
+  <p>A few things follow if this framework is correct.</p>
+
+  <h3>The core-accessory distinction dissolves.</h3>
+  <p>
+    Core genes are not a different kind of thing from accessory genes. They are simply genes whose
+    beneficial environment is always present (<em>p</em> &asymp; 1). Accessory genes are genes
+    where <em>p</em> is lower. Same dynamics, same threshold equation. A continuum, no divide.
+  </p>
+
+  <h3>Accessory genes are not optional.</h3>
+  <p>
+    &ldquo;Accessory&rdquo; is a misleading word because it implies dispensable. Under bet-hedging,
+    accessory genes are essential to the population across evolutionary time, even if not to every
+    cell in every generation. A gene rarely needed is not a gene unneeded. It is insurance, and
+    populations without insurance don&rsquo;t last.
+  </p>
+
+  <h3>The prokaryotic individual is incomplete by design.</h3>
+  <p>
+    Each genome samples from a larger whole and executes one strategy from a population-level
+    portfolio. The cell is best understood as a participant in a distributed system. Lineage
+    persistence depends on diversity the individual does not itself carry.
+  </p>
+
+  <h3>Pangenomes are the inevitable consequence of life under uncertainty.</h3>
+  <p>
+    Above the complexity threshold <em>E</em><sub>crit</sub> = <em>s</em>/<em>c</em>, no single
+    genome can afford full coverage of all contingencies. The cost grows faster than the benefit.
+    Distribution becomes obligate. Bacteria have run this strategy for nearly four billion years,
+    through climates and chemistries no individual genome could have anticipated. The pangenome
+    is a large part of why they&rsquo;re still here.
+  </p>
+
+  <h3>A note on what the equations are telling you</h3>
+
+  <p>If you read only one bit of maths from all of this, read these two lines.</p>
+
+  <div class="equation">
+    <span class="label">Will selection alone keep the gene?</span>
+    p* = c / (s + c)
+  </div>
+
+  <p>
+    If the environment in which the gene helps occurs more often than this threshold, selection
+    wins and the gene fixes. If less often, selection alone would lose the gene, and HGT has to
+    compensate.
+  </p>
+
+  <div class="equation">
+    <span class="label">Can one genome carry everything?</span>
+    E<sub>crit</sub> = s / c
+  </div>
+
+  <p>
+    If a bacterium faces fewer adaptive challenges than this threshold, individual genomes can be
+    comprehensive. Above the threshold, comprehensiveness collapses and distribution becomes
+    mandatory.
+  </p>
+
+  <p>
+    Everything else in this paper, including the U-shape, the rare-gene persistence, the genome
+    size plateau, the within-species <em>E. coli</em> results, the cross-species variance
+    constraint, follows from these two thresholds and the geometric-mean argument. No additional
+    mechanisms required.
+  </p>
+
+  <p>That&rsquo;s the claim, anyway. Pushback welcome.</p>
+</section>
+
+</article>
+
+<!-- ── Links ── -->
+<aside id="links" class="links">
+  <div class="links-inner">
+    <h3>Read more</h3>
+    <p><strong>Preprint:</strong> <a href="https://doi.org/10.64898/2026.05.08.723712" target="_blank">https://doi.org/10.64898/2026.05.08.723712</a></p>
+    <p><strong>Code:</strong> <a href="https://github.com/mol-evol/pangenome-bet-hedging" target="_blank">https://github.com/mol-evol/pangenome-bet-hedging</a></p>
+    <p><strong>Author website:</strong> <a href="https://mol-evol.github.io/" target="_blank">https://mol-evol.github.io/</a></p>
+  </div>
+</aside>
 
 <!-- ── Footer ── -->
 <footer>
-  <div class="container">
-    <p>
-      <a href="https://github.com/mol-evol/pangenome-bet-hedging">GitHub</a>
-      &ensp;&middot;&ensp;
-      <a href="https://github.com/mol-evol/pangenome-bet-hedging/blob/main/LICENSE">MIT License</a>
-    </p>
-    <p style="margin-top:0.5rem;">&copy; 2026 James O. McInerney</p>
-  </div>
+  <p>
+    <a href="https://mol-evol.github.io/">mol-evol.github.io</a>
+    &ensp;&middot;&ensp;
+    <a href="https://github.com/mol-evol/pangenome-bet-hedging">GitHub</a>
+    &ensp;&middot;&ensp;
+    <a href="https://github.com/mol-evol/pangenome-bet-hedging/blob/main/LICENSE">MIT License</a>
+  </p>
+  <p style="margin-top:0.5rem;">&copy; 2026 James O. McInerney</p>
 </footer>
 
 <script>
-// Highlight active nav link on scroll
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('nav a[href^="#"]');
+// Highlight active TOC link on scroll
+const sections = document.querySelectorAll('article section[id]');
+const navLinks = document.querySelectorAll('nav.toc a[href^="#"]');
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(s => {
