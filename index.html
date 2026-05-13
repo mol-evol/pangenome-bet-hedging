@@ -384,6 +384,7 @@
     <li><a href="#empirical">Empirical test</a></li>
     <li><a href="#cross-species">Cross-species</a></li>
     <li><a href="#meaning">What this means</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#figures">Figures</a></li>
     <li><a href="#data">Data</a></li>
     <li><a href="#code">Code</a></li>
@@ -1009,6 +1010,161 @@
   </p>
 
   <p>That&rsquo;s the claim, anyway. Pushback welcome.</p>
+</section>
+
+<section id="faq">
+  <h2>Questions from readers</h2>
+
+  <p class="lead">
+    A few questions that came up after the preprint went online. If you have more, please get in
+    touch.
+  </p>
+
+  <h3>1. Does the model distinguish between presence and expression? If a gene is tightly regulated, isn&rsquo;t the cost basically just replicating the DNA?</h3>
+
+  <p>
+    The model rolls regulation into the carriage cost <em>c</em>. A silent or tightly regulated gene
+    has a very small <em>c</em> &mdash; basically the DNA replication burden plus any
+    leaky-expression risk &mdash; while a constitutively expressed gene has a much larger <em>c</em>.
+    So <em>c</em> in the framework is an effective parameter that aggregates replication,
+    transcription, translation, and any folding or aggregation costs.
+  </p>
+
+  <p>
+    This actually strengthens the bet-hedging argument rather than weakening it. Plug a smaller
+    <em>c</em> into <em>p</em>* = <em>c</em>&nbsp;/&nbsp;(<em>s</em>&nbsp;+&nbsp;<em>c</em>) and the
+    threshold drops. Tightly regulated genes can persist at much lower environmental frequencies
+    than unregulated ones. Regulation makes the insurance reservoir cheaper to maintain, so
+    populations can carry broader portfolios. From this angle, conditional regulation is part of
+    the bet-hedging architecture &mdash; a way for the cell to pay the expensive part of the gene
+    only when it pays off.
+  </p>
+
+  <p>
+    What the model doesn&rsquo;t do is track expression dynamics explicitly. A more granular
+    version would split <em>c</em> into a baseline replication cost and a conditional expression
+    cost, but the threshold structure is unchanged.
+  </p>
+
+  <h3>2. How does functional redundancy fit in? If two genes do roughly the same thing, or if one gene changes the cost of another, does the model still treat each gene&rsquo;s cost and benefit as independent?</h3>
+
+  <p>
+    The model treats each gene as having independent <em>s</em> and <em>c</em>, which is a
+    deliberate simplification. Two extensions cover the cases the question is about.
+  </p>
+
+  <p>
+    <strong>Functional redundancy.</strong> If two genes do roughly the same job, the marginal
+    <em>s</em> of the second is small &mdash; its benefit only materialises when the first fails
+    or is absent. So the second gene&rsquo;s effective <em>p</em>* is high and selection&rsquo;s
+    grip on it is weak. Redundancy is a soft form of within-cell bet-hedging.
+  </p>
+
+  <p>
+    <strong>Epistasis.</strong> A gene&rsquo;s cost can depend on what else is present (a
+    transporter is only useful with the right downstream enzyme). The clean way to handle this is
+    to bundle interacting genes as functional units and apply the same thresholds at the unit
+    level. The maths doesn&rsquo;t change, only the granularity.
+  </p>
+
+  <p>
+    The deeper point is that bet-hedging operates on functional capability, not specific genes.
+    The population needs coverage of <em>E</em> adaptive challenges, and which gene combination
+    delivers that coverage is implementation detail. The thresholds describe the architecture;
+    the per-gene parameters are a convenient but somewhat arbitrary partition of it.
+  </p>
+
+  <h3>3. Costs and benefits aren&rsquo;t binary in real environments. They vary along gradients. Does the threshold framework hold when <em>s</em> and <em>c</em> are distributions rather than fixed values?</h3>
+
+  <p>
+    Yes, it smears, but the qualitative structure survives &mdash; and the smearing is what we
+    actually observe.
+  </p>
+
+  <p>
+    When <em>s</em> and <em>c</em> are distributions,
+    <em>p</em>* = <em>c</em>&nbsp;/&nbsp;(<em>s</em>&nbsp;+&nbsp;<em>c</em>) becomes a distribution
+    of thresholds across genes. A given gene with environmental frequency <em>p</em> doesn&rsquo;t
+    sit cleanly on one side of &ldquo;the&rdquo; threshold; it has a probability of being net
+    favoured. The binary &ldquo;selection wins / HGT wins&rdquo; becomes a gradient.
+  </p>
+
+  <p>
+    That&rsquo;s exactly why the U-shape comes out as a distribution rather than two spikes. Real
+    pangenomes don&rsquo;t have all genes at two frequencies &mdash; they have a continuous
+    distribution peaked at the extremes, which is what you&rsquo;d predict if the underlying
+    parameters are themselves distributed.
+  </p>
+
+  <p>
+    For temporal gradients &mdash; <em>s</em> and <em>c</em> shifting continuously over time
+    rather than switching between discrete states &mdash; the variance / geometric-mean argument
+    gets stronger, not weaker. Continuous environmental fluctuation is precisely what generates
+    the fitness variance the model responds to. I use a switching environment for tractability,
+    but the geometric-mean penalty doesn&rsquo;t care about the shape of the fluctuation, only
+    its variance.
+  </p>
+
+  <p>
+    So the framework is a deliberately stripped-down skeleton. The thresholds give the
+    qualitative architecture; the empirical patterns (continuous frequency distributions, the
+    ~0.6 retention values, the cross-species variance constraint) are what you&rsquo;d expect
+    from that skeleton operating under realistic distributions of <em>s</em>, <em>c</em>, and
+    environmental noise.
+  </p>
+
+  <h3>4. How should I think about <em>h</em> and <em>f</em>? Is <em>h</em> a bare recombination rate, or does it include the frequency of the gene in the source population?</h3>
+
+  <p>
+    Good question, and the cleanest answer is that <em>h</em> in the model is an
+    <strong>effective net rate</strong>, not a bare recombination rate.
+  </p>
+
+  <p>
+    In the empirical analysis, <em>f</em> is species-level frequency &mdash; e.g. the fraction of
+    all <em>E. coli</em> genomes carrying the gene. For the equilibrium relation
+    <em>f</em> &asymp; <em>h</em> / |<em>s</em><sub>net</sub>| to give a non-zero <em>f</em>
+    against selection, <em>h</em> has to represent input from outside the focal lineage. Pure
+    intra-species recombination among carriers and non-carriers redistributes <em>f</em> but
+    can&rsquo;t sustain it against purifying selection. So <em>h</em> is, in mechanism, a rate of
+    gene re-entry from a broader gene pool: other strains, related species, MGEs, environmental
+    DNA.
+  </p>
+
+  <p>
+    The cleanest mechanistic decomposition is <em>h</em> = <em>r</em> &times; <em>p</em><sub>ext</sub>,
+    where <em>r</em> is the bare per-cell per-generation recombination/transfer rate and
+    <em>p</em><sub>ext</sub> is the frequency of the gene in the external source pool. The
+    <em>h</em> values quoted in the paper (~10&#8315;&sup2; for conjugative plasmids down to
+    ~10&#8315;&#8310;&ndash;10&#8315;&#8312; for chromosomal homologous recombination) are
+    intended as effective rates that already absorb <em>p</em><sub>ext</sub>. They&rsquo;re
+    calibrated to empirically observed transfer rates, not bare encounter rates with
+    <em>p</em><sub>ext</sub> = 1.
+  </p>
+
+  <p>
+    This matters when reading the predictions. AMR cassettes carried on broad-host-range
+    conjugative elements have substantial <em>p</em><sub>ext</sub> across Enterobacteriaceae and
+    beyond, so <em>h</em><sub>eff</sub> stays moderate. Genes that are uniformly rare across the
+    broader pool do give small <em>h</em><sub>eff</sub>, and the model predicts correspondingly
+    low equilibrium <em>f</em>. The U-shape architecture is robust to this; the rare peak just
+    sits closer to the floor.
+  </p>
+
+  <p>
+    The cleaner version is a coupled system: focal-species <em>f</em> tracked against a broader
+    gene pool with its own dynamics, with <em>h</em><sub>eff</sub> = <em>r</em> &times;
+    <em>p</em><sub>ext</sub> doing the bookkeeping. I haven&rsquo;t done that here. It&rsquo;s a
+    natural follow-up paper: it would let one ask which genes are pool-supported vs.
+    self-supported, why some species are more &ldquo;open&rdquo; than others (gene-pool diversity
+    rather than just <em>r</em>), and how the pool itself evolves. The present paper deliberately
+    treats <em>h</em> as an effective net rate to keep the model minimal and the predictions
+    testable; the decomposition is the next step rather than a footnote in this one.
+  </p>
+
+  <p class="muted">
+    Thanks to Ben Good for raising this in discussion of the preprint.
+  </p>
 </section>
 
 </article>
