@@ -1050,7 +1050,8 @@
 
   <p>
     The model treats each gene as having independent <em>s</em> and <em>c</em>, which is a
-    deliberate simplification. Two extensions cover the cases the question is about.
+    deliberate simplification. Both cases the question asks about can be handled within the same
+    framework.
   </p>
 
   <p>
@@ -1062,16 +1063,16 @@
 
   <p>
     <strong>Epistasis.</strong> A gene&rsquo;s cost can depend on what else is present (a
-    transporter is only useful with the right downstream enzyme). The clean way to handle this is
-    to bundle interacting genes as functional units and apply the same thresholds at the unit
-    level. The maths doesn&rsquo;t change, only the granularity.
+    transporter is only useful with the right downstream enzyme). To handle this, bundle
+    interacting genes as functional units and apply the same thresholds at the unit level. The
+    maths doesn&rsquo;t change, only the granularity.
   </p>
 
   <p>
-    The deeper point is that bet-hedging operates on functional capability, not specific genes.
-    The population needs coverage of <em>E</em> adaptive challenges, and which gene combination
-    delivers that coverage is implementation detail. The thresholds describe the architecture;
-    the per-gene parameters are a convenient but somewhat arbitrary partition of it.
+    Bet-hedging operates on functional capability, not specific genes. The population needs
+    coverage of <em>E</em> adaptive challenges, and which gene combination delivers that coverage
+    is implementation detail. The thresholds describe the architecture; the per-gene parameters
+    are a convenient but somewhat arbitrary partition of it.
   </p>
 
   <h3>3. Costs and benefits aren&rsquo;t binary in real environments. They vary along gradients. Does the threshold framework hold when <em>s</em> and <em>c</em> are distributions rather than fixed values?</h3>
@@ -1090,10 +1091,10 @@
   </p>
 
   <p>
-    That&rsquo;s exactly why the U-shape comes out as a distribution rather than two spikes. Real
-    pangenomes don&rsquo;t have all genes at two frequencies &mdash; they have a continuous
-    distribution peaked at the extremes, which is what you&rsquo;d predict if the underlying
-    parameters are themselves distributed.
+    This is why the U-shape comes out as a distribution rather than two spikes. Real pangenomes
+    don&rsquo;t have all genes at two frequencies &mdash; they have a continuous distribution
+    peaked at the extremes, which is what you&rsquo;d predict if the underlying parameters are
+    themselves distributed.
   </p>
 
   <p>
@@ -1116,8 +1117,8 @@
   <h3>4. How should I think about <em>h</em> and <em>f</em>? Is <em>h</em> a bare recombination rate, or does it include the frequency of the gene in the source population?</h3>
 
   <p>
-    Good question, and the cleanest answer is that <em>h</em> in the model is an
-    <strong>effective net rate</strong>, not a bare recombination rate.
+    In the model, <em>h</em> is an <strong>effective net rate</strong>, not a bare recombination
+    rate.
   </p>
 
   <p>
@@ -1132,7 +1133,7 @@
   </p>
 
   <p>
-    The cleanest mechanistic decomposition is <em>h</em> = <em>r</em> &times; <em>p</em><sub>ext</sub>,
+    Mechanistically, <em>h</em> decomposes as <em>h</em> = <em>r</em> &times; <em>p</em><sub>ext</sub>,
     where <em>r</em> is the bare per-cell per-generation recombination/transfer rate and
     <em>p</em><sub>ext</sub> is the frequency of the gene in the external source pool. The
     <em>h</em> values quoted in the paper (~10&#8315;&sup2; for conjugative plasmids down to
@@ -1152,18 +1153,21 @@
   </p>
 
   <p>
-    The cleaner version is a coupled system: focal-species <em>f</em> tracked against a broader
-    gene pool with its own dynamics, with <em>h</em><sub>eff</sub> = <em>r</em> &times;
+    A more complete version would track a coupled system: focal-species <em>f</em> alongside a
+    broader gene pool with its own dynamics, with <em>h</em><sub>eff</sub> = <em>r</em> &times;
     <em>p</em><sub>ext</sub> doing the bookkeeping. I haven&rsquo;t done that here. It&rsquo;s a
-    natural follow-up paper: it would let one ask which genes are pool-supported vs.
+    natural follow-up paper, and would let one ask which genes are pool-supported vs.
     self-supported, why some species are more &ldquo;open&rdquo; than others (gene-pool diversity
-    rather than just <em>r</em>), and how the pool itself evolves. The present paper deliberately
-    treats <em>h</em> as an effective net rate to keep the model minimal and the predictions
-    testable; the decomposition is the next step rather than a footnote in this one.
+    rather than just <em>r</em>), and how the pool itself evolves. The present paper treats
+    <em>h</em> as an effective net rate to keep the model minimal and the predictions testable;
+    the decomposition is the next step rather than a footnote in this one.
   </p>
 
-  <p class="muted">
-    Thanks to Ben Good for raising this in discussion of the preprint.
+  <p class="muted" style="margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--border);">
+    Thanks to <a href="https://bsky.app/profile/uncultured.carinilab.com" target="_blank">Paul Carini</a>
+    (questions 1&ndash;3) and
+    <a href="https://bsky.app/profile/benjaminhgood.bsky.social" target="_blank">Ben Good</a>
+    (question 4) for raising these in discussion of the preprint on Bluesky.
   </p>
 </section>
 
